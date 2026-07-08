@@ -1,4 +1,4 @@
-<canvas id="hero-ripple-canvas" class="pointer-events-none absolute inset-0 z-[4] size-full opacity-80" aria-hidden="true"></canvas>
+<canvas id="hero-ripple-canvas" class="pointer-events-none absolute inset-x-0 top-0 z-[4] h-[100svh] w-full opacity-80" aria-hidden="true"></canvas>
 
 <script>
   const initHeroRipple = () => {
@@ -25,7 +25,7 @@
     const resize = () => {
       const rect = hero.getBoundingClientRect();
       state.width = rect.width;
-      state.height = rect.height;
+      state.height = Math.min(rect.height, innerHeight);
       canvas.width = Math.ceil(rect.width * state.dpr);
       canvas.height = Math.ceil(rect.height * state.dpr);
       canvas.style.width = `${rect.width}px`;
@@ -58,6 +58,7 @@
 
     hero.addEventListener("pointerenter", (event) => {
       const point = localPoint(event);
+      if (point.y < 0 || point.y > state.height) return;
       state.active = true;
       state.lastX = point.x;
       state.lastY = point.y;
@@ -68,6 +69,7 @@
     hero.addEventListener("pointermove", (event) => {
       const now = performance.now();
       const point = localPoint(event);
+      if (point.y < 0 || point.y > state.height) { state.active = false; return; }
       const distance = Math.hypot(point.x - state.lastX, point.y - state.lastY);
       const speed = distance / Math.max(16, now - state.lastTime) * 1000;
       if (distance > 10 || now - state.lastTime > 42) {
