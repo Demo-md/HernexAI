@@ -43,9 +43,9 @@ const fallbackReply = (intent: string, fields: ReturnType<typeof extractLeadFiel
     if (!fields.serviceInterest) return "Let’s find the strongest growth lever first. Are you looking for Growth Technology Services—websites, apps, software, or automation—or branding, social media, ads, SEO, or funnels?";
     if (!fields.businessType) return /website|software|mobile app|saas|api|automation|cloud|crm|erp|devops|database|hosting|infrastructure/i.test(fields.serviceInterest) ? "Growth Technology Services may be the right fit if disconnected tools or manual work are slowing you down. What type of business is this for?" : "Great. What type of business is this for?";
     if (!fields.requirement) return "Briefly, what outcome or requirement are you looking for?";
-    if (!/continue.*whatsapp|contact you on whatsapp|open a whatsapp chat|whatsapp chat/i.test(assistantText)) return "Would you like me to save your enquiry and then open a WhatsApp chat with the HerNexAI team?";
+    if (!/continue.*whatsapp|contact you on whatsapp|open a whatsapp chat|whatsapp chat/i.test(assistantText)) return "This is worth mapping with the dedicated HerNexAI team so you get the right structure instead of a generic package. Start a WhatsApp chat and we’ll help clarify the best next step for your business.";
     if (fields.whatsappDeclined) return "No problem—I won’t collect contact details. You can continue asking questions here.";
-    if (!fields.whatsappConsent) return "Please answer yes or no. If yes, I’ll collect the remaining details one at a time before showing the WhatsApp button.";
+    if (!fields.whatsappConsent) return "Start a WhatsApp chat with our dedicated team. We’ll help you choose the right service structure for your business.";
     if (fields.whatsappConsent && !fields.name) return "What name should the team use?";
     if (fields.name && !fields.phone) return "Please share your WhatsApp number. By sharing it, you allow HerNexAI to follow up on your enquiry.";
     if (fields.phone && !fields.budgetRange) return "What budget range should the team plan around? You can also say flexible or not sure.";
@@ -120,10 +120,11 @@ export const POST: APIRoute = async ({ request }) => {
   if (leadSaved || supportTicketCreated) void appendToSheet("conversation", { createdAt: new Date().toISOString(), sessionId, role: "summary", message: conversationSummary, intent });
 
   const whatsappReady = state.leadSaved || state.supportTicketCreated || leadSaved || supportTicketCreated;
-  const showContact = whatsappReady || /contact|phone|email|whatsapp/i.test(message);
+  const serviceHandoffReady = serviceIntent && fields.serviceInterest && fields.businessType && fields.requirement;
+  const showContact = whatsappReady || serviceHandoffReady || /contact|phone|email|whatsapp/i.test(message);
   const suggestedActions = !fields.supportCategory && ["support_request", "complaint"].includes(intent)
     ? [...supportCategories]
-    : whatsappReady ? ["Start WhatsApp Chat", "View Services"] : ["View Services"];
+    : whatsappReady || serviceHandoffReady ? ["Start WhatsApp Chat", "View Services"] : ["View Services"];
 
   return Response.json({ reply, intent, leadScore, leadStatus, suggestedActions, supportCategories: !fields.supportCategory && ["support_request", "complaint"].includes(intent) ? supportCategories : [], supportTicketCreated, ticketId, leadSaved, whatsappReady, source, sessionId, contact: showContact ? hernexKnowledge.contact : null });
 };

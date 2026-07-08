@@ -5,6 +5,8 @@ import { contact, proofPoints, services } from "../../data/site";
 
 const techService = services.find((service) => service.slug === "tech-services");
 const marketingServices = services.filter((service) => service.slug !== "tech-services");
+const nudgeMessage = "Looks like you’re comparing HerNexAI’s marketing and technology services. If you want the fastest path from scattered needs to a clear growth plan, talk to our dedicated team and we’ll help map the right structure for your business.";
+const nudgePrompt = "I want to consult with HerNexAI about the right marketing and technology service structure for my business.";
 ---
 <BaseLayout title="Marketing & Technology Services — HerNexAI" description="Explore HerNexAI branding, content, advertising, websites, SEO, automation, funnels, consulting, and technology services.">
   <section class="mesh pb-20 pt-32 md:pb-32 md:pt-48">
@@ -37,4 +39,25 @@ const marketingServices = services.filter((service) => service.slug !== "tech-se
   <section class="container py-20 md:py-28">
     <div class="rounded-[2.25rem] border border-line bg-paper p-8 md:p-12"><p class="eyebrow">How HerNexAI Works</p><div class="mt-9 grid gap-8 md:grid-cols-3"><article><strong class="text-3xl font-black text-blue">01</strong><h3 class="mt-4 text-xl font-black">Craft with care</h3><p class="mt-3 leading-relaxed text-muted">Strategy and execution are shaped around the brand instead of relying on one-size-fits-all output.</p></article><article><strong class="text-3xl font-black text-blue">02</strong><h3 class="mt-4 text-xl font-black">Track the signal weekly</h3><p class="mt-3 leading-relaxed text-muted">Metrics are reviewed regularly so the next action comes from evidence rather than monthly guesswork.</p></article><article><strong class="text-3xl font-black text-blue">03</strong><h3 class="mt-4 text-xl font-black">Improve continuously</h3><p class="mt-3 leading-relaxed text-muted">Content, search visibility, community, conversion paths, and technology improve through consistent iteration.</p></article></div><p class="mt-8 text-xs leading-relaxed text-muted">Public proof points reflect HerNexAI’s published company content. Client-specific percentages should only be added after case-study approval.</p></div>
   </section>
+  <script define:vars={{ nudgeMessage, nudgePrompt }}>
+    document.addEventListener("astro:page-load", () => {
+      if (location.pathname.replace(/\/$/, "") !== "/services") return;
+      let shown = false;
+      const onScroll = () => {
+        if (shown) return;
+        const maxScroll = document.documentElement.scrollHeight - innerHeight;
+        if (maxScroll <= 0 || scrollY / maxScroll < .3) return;
+        shown = true;
+        window.removeEventListener("scroll", onScroll);
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent("hernex:chat-nudge", { detail: {
+            message: nudgeMessage,
+            prompt: nudgePrompt
+          }}));
+        }, 120);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    });
+  </script>
 </BaseLayout>

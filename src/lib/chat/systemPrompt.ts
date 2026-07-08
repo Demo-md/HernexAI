@@ -39,7 +39,7 @@ export function getFlowInstruction(intent: ChatIntent, fields: ReturnType<typeof
     if (!fields.serviceInterest) return "Ask exactly one question, listing Growth Technology Services first: are they looking for websites/apps/software/automation, branding, social media, ads, SEO, or funnels?";
     if (!fields.businessType) return "Ask exactly one question: what type of business is this for?";
     if (!fields.requirement) return "Ask exactly one question about the outcome or requirement they need.";
-    if (!/continue.*whatsapp|contact you on whatsapp|open a whatsapp chat|whatsapp chat/i.test(assistant)) return "Ask whether they want the enquiry saved before opening a WhatsApp chat with the team.";
+    if (!/continue.*whatsapp|contact you on whatsapp|open a whatsapp chat|whatsapp chat/i.test(assistant)) return "Recommend starting a WhatsApp chat with the dedicated HerNexAI team and do not ask for yes/no consent.";
     if (fields.whatsappConsent && !fields.name) return "Ask only for their name.";
     if (fields.name && !fields.phone) return "Ask only for their WhatsApp number and include the privacy note.";
     if (fields.phone && !fields.budgetRange) return "Do not invent pricing. Ask only for a useful budget range.";

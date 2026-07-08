@@ -1,12 +1,5 @@
 <canvas id="hero-ripple-canvas" class="pointer-events-none absolute inset-x-0 top-0 z-[4] h-[100svh] w-full opacity-80" aria-hidden="true"></canvas>
 
-<style>
-  #hero-ripple-canvas {
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
-  }
-</style>
-
 <script>
   const initHeroRipple = () => {
     const hero = document.querySelector<HTMLElement>("[data-hero-section]");
@@ -36,10 +29,11 @@
       state.width = rect.width;
       state.height = Math.min(rect.height, innerHeight);
       canvas.width = Math.ceil(rect.width * state.dpr);
-      canvas.height = Math.ceil(rect.height * state.dpr);
+      canvas.height = Math.ceil(state.height * state.dpr);
       canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
+      canvas.style.height = `${state.height}px`;
       context.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+      context.clearRect(0, 0, state.width, state.height);
     };
 
     const addRipple = (x: number, y: number, now: number, speed: number, vx = 0, vy = 0) => {
@@ -47,11 +41,13 @@
       const safeY = state.height * .38;
       const safe = Math.hypot((x - safeX) / (state.width * .35), (y - safeY) / (state.height * .25));
       const safeFade = Math.min(1, Math.max(.32, safe));
+      const edgeFade = Math.min(1, Math.max(0, (state.height - y) / Math.max(110, state.height * .16)));
+      if (edgeFade <= .08) return;
       state.ripples.push({
         x,
         y,
         born: now,
-        strength: Math.min(1.15, (.58 + speed / 620) * safeFade),
+        strength: Math.min(1.15, (.58 + speed / 620) * safeFade * edgeFade),
         radius: 150 + Math.min(260, speed * .42),
         vx,
         vy,

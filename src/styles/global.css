@@ -29,6 +29,7 @@ p { text-wrap: pretty; }
 [id] { scroll-margin-top: 6rem; }
 
 .hero-heading { font-size: clamp(3rem, 7.5vw, 7.5rem); line-height: .95; letter-spacing: -.035em; }
+.service-detail-heading { font-size: clamp(2.8rem, 5.7vw, 6rem); white-space: nowrap; }
 .section-heading { font-size: clamp(2.5rem, 5.5vw, 5.8rem); line-height: 1; letter-spacing: -.03em; }
 .card-heading { font-size: clamp(1.75rem, 3vw, 2.6rem); line-height: 1.05; letter-spacing: -.025em; }
 .body-copy { font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.75; letter-spacing: 0; }
@@ -116,6 +117,7 @@ p { text-wrap: pretty; }
 
 @media (max-width: 767px) {
   .hero-heading { font-size: clamp(2.65rem, 13.5vw, 4.5rem); line-height: .96; letter-spacing: -.032em; }
+  .service-detail-heading { font-size: clamp(2.4rem, 11vw, 3.8rem); white-space: normal; }
   .section-heading { font-size: clamp(2.25rem, 10.5vw, 3.8rem); line-height: 1; }
   .card-heading { font-size: clamp(1.7rem, 8vw, 2.5rem); }
   .system-node { min-width: 82px; padding: 8px 9px; }
