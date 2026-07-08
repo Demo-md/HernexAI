@@ -1,4 +1,4 @@
-<canvas id="hero-ripple-canvas" class="pointer-events-none absolute inset-0 z-[4] size-full opacity-100 mix-blend-overlay" aria-hidden="true"></canvas>
+<canvas id="hero-ripple-canvas" class="pointer-events-none absolute inset-0 z-[4] size-full opacity-80" aria-hidden="true"></canvas>
 
 <script>
   const initHeroRipple = () => {
@@ -11,13 +11,14 @@
     if (!context) return;
 
     const state = {
-      dpr: Math.min(devicePixelRatio || 1, 2),
+      dpr: Math.min(devicePixelRatio || 1, 1.5),
       width: 0,
       height: 0,
       active: false,
       lastTime: 0,
       lastX: 0,
       lastY: 0,
+      frame: 0,
       ripples: [] as Array<{ x: number; y: number; born: number; strength: number; radius: number; vx: number; vy: number }>,
     };
 
@@ -47,6 +48,7 @@
         vy,
       });
       if (state.ripples.length > 24) state.ripples.shift();
+      if (!state.frame) state.frame = requestAnimationFrame(draw);
     };
 
     const localPoint = (event: PointerEvent) => {
@@ -137,10 +139,8 @@
           context.stroke();
         }
       }
-      requestAnimationFrame(draw);
+      state.frame = state.ripples.length ? requestAnimationFrame(draw) : 0;
     };
-
-    requestAnimationFrame(draw);
   };
 
   initHeroRipple();

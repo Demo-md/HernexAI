@@ -95,7 +95,8 @@
 <script>
   const initHeroBackground = () => {
     const bg = document.querySelector<HTMLElement>(".hero-bg");
-    if (!bg || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!bg || bg.dataset.ready || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    bg.dataset.ready = "true";
 
     window.addEventListener("pointermove", (event) => {
       const x = (event.clientX / window.innerWidth - 0.5) * 18;
@@ -156,17 +157,46 @@
 
   .hero-bg__cinema {
     inset: auto;
-    bottom: -18%;
-    width: min(46vw, 620px);
-    height: 68%;
-    opacity: .72;
-    filter: blur(.2px);
+    top: 9%;
+    width: min(34vw, 520px);
+    height: 82%;
+    overflow: hidden;
+    opacity: .5;
+    filter: blur(.1px);
     transform: translate3d(0, 0, 0);
     animation: cinema-drift 14s ease-in-out infinite alternate;
   }
 
+  .hero-bg__cinema::before {
+    position: absolute;
+    inset: 5% -24%;
+    border-radius: 48% 52% 44% 56%;
+    background:
+      radial-gradient(ellipse at 48% 20%, rgb(255 255 255 / .88) 0 22%, transparent 23%),
+      radial-gradient(ellipse at 52% 48%, rgb(255 180 158 / .28) 0 28%, transparent 29%),
+      radial-gradient(ellipse at 46% 76%, rgb(188 255 241 / .34) 0 30%, transparent 31%),
+      linear-gradient(150deg, rgb(52 92 255 / .2), rgb(185 167 255 / .12) 48%, rgb(255 180 158 / .12));
+    content: "";
+    animation: cinema-wave 11s ease-in-out infinite alternate;
+  }
+
+  .hero-bg__cinema::after {
+    position: absolute;
+    left: 18%;
+    top: 8%;
+    width: 82%;
+    height: 92%;
+    border: 2px solid rgb(17 21 42 / .1);
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    content: "";
+    transform: rotate(18deg);
+    animation: cinema-arc 13s ease-in-out infinite alternate;
+  }
+
   .hero-bg__cinema--left {
-    left: -9%;
+    left: -8%;
     background:
       radial-gradient(ellipse at 34% 18%, rgb(255 255 255 / .82) 0 22%, transparent 38%),
       radial-gradient(ellipse at 36% 54%, rgb(255 180 158 / .22) 0 34%, transparent 58%),
@@ -177,7 +207,7 @@
   }
 
   .hero-bg__cinema--right {
-    right: -9%;
+    right: -8%;
     background:
       radial-gradient(ellipse at 66% 18%, rgb(255 255 255 / .8) 0 22%, transparent 38%),
       radial-gradient(ellipse at 62% 55%, rgb(185 167 255 / .22) 0 36%, transparent 60%),
@@ -229,6 +259,27 @@
   .hero-bg__cinema--right i:nth-child(1) { left: 58%; }
   .hero-bg__cinema--right i:nth-child(2) { left: 24%; }
   .hero-bg__cinema--right i:nth-child(3) { left: 34%; }
+
+  .hero-bg__cinema i:nth-child(1) {
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hero-bg__cinema i:nth-child(1)::before,
+  .hero-bg__cinema i:nth-child(1)::after {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 999px;
+    background: rgb(17 21 42 / .18);
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-bg__cinema i:nth-child(1)::before { width: 24px; height: 2px; }
+  .hero-bg__cinema i:nth-child(1)::after { width: 2px; height: 24px; }
 
   .hero-bg__svg {
     width: 100%;
@@ -349,11 +400,11 @@
   }
 
   @keyframes hero-orb {
-    50% { opacity: .78; scale: 1.045; }
+    50% { scale: 1.035; }
   }
 
   @keyframes hero-ribbons {
-    to { transform: translate3d(34px, -18px, 0) scale(1.018); opacity: .9; }
+    to { transform: translate3d(24px, -12px, 0) scale(1.012); }
   }
 
   @keyframes hero-network {
@@ -365,7 +416,15 @@
   }
 
   @keyframes cinema-drift {
-    to { transform: translate3d(0, -18px, 0) scale(1.035); opacity: .86; }
+    to { transform: translate3d(0, -12px, 0) scale(1.018); }
+  }
+
+  @keyframes cinema-wave {
+    to { transform: translate3d(3%, -2%, 0) rotate(2deg) scale(1.035); }
+  }
+
+  @keyframes cinema-arc {
+    to { transform: translate3d(8px, -10px, 0) rotate(22deg); }
   }
 
   @keyframes cinema-spark {
@@ -436,6 +495,8 @@
     .hero-bg,
     .hero-bg__orb,
     .hero-bg__cinema,
+    .hero-bg__cinema::before,
+    .hero-bg__cinema::after,
     .hero-bg__cinema i,
     .hero-bg__ribbons,
     .hero-bg__network,

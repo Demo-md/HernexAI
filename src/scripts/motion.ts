@@ -7,6 +7,7 @@ let lenis: Lenis | undefined;
 let context: gsap.Context | undefined;
 let controller: AbortController | undefined;
 let wordTimer: ReturnType<typeof setInterval> | undefined;
+let pulseAnimation: gsap.core.Timeline | undefined;
 gsap.ticker.add((time) => lenis?.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
@@ -24,7 +25,7 @@ const storyColors = ["#345cff", "#7e6bf2", "#b9a7ff", "#ffb49e", "#8ea8ff", "#df
 const serviceColors = ["#345cff", "#b9a7ff", "#ffb49e", "#5f7cff", "#dfff72", "#8ea8ff", "#ff9578", "#7e6bf2"];
 
 function initMotion() {
-  context?.revert(); controller?.abort(); lenis?.destroy(); if (wordTimer) clearInterval(wordTimer); ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  context?.revert(); controller?.abort(); lenis?.destroy(); pulseAnimation?.kill(); if (wordTimer) clearInterval(wordTimer); ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
   controller = new AbortController();
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const stackCards = gsap.utils.toArray<HTMLAnchorElement>(".service-stack-card");
@@ -63,6 +64,18 @@ function initMotion() {
       const stageRect = stage.getBoundingClientRect();
       const movements = objects.map((object) => { const rect = object.getBoundingClientRect(); return { x: stageRect.left + stageRect.width / 2 - rect.left - rect.width / 2, y: stageRect.top + stageRect.height / 2 - rect.top - rect.height / 2 }; });
       gsap.set(nodes, { opacity: .16, scale: .82 }); gsap.set(lines, { strokeDashoffset: 160, opacity: .1 }); gsap.set(".system-dot", { opacity: .1 }); gsap.set(".growth-bar", { scaleY: .15 });
+      const pulse = document.querySelector<SVGCircleElement>(".signal-pulse");
+      const pulseNodes = [{ x: 450, y: 105 }, { x: 170, y: 195 }, { x: 730, y: 190 }, { x: 270, y: 420 }, { x: 640, y: 415 }];
+      let pulseRoute: typeof pulseNodes = [];
+      const movePulse = () => {
+        if (!pulse || controller?.signal.aborted) return;
+        if (!pulseRoute.length) pulseRoute = gsap.utils.shuffle([...pulseNodes]);
+        const next = pulseRoute.pop()!;
+        pulseAnimation = gsap.timeline({ onComplete: movePulse })
+          .to(pulse, { attr: { cx: next.x, cy: next.y }, duration: .75, ease: "power2.inOut" })
+          .to(pulse, { attr: { cx: 450, cy: 270 }, duration: .55, ease: "power2.inOut" }, "+=.12");
+      };
+      movePulse();
       const desktop = innerWidth >= 768;
       gsap.timeline({ scrollTrigger: { trigger: story, start: desktop ? "top 10%" : "top 78%", end: desktop ? "+=1050" : "bottom 45%", scrub: desktop ? 1 : false, pin: desktop, pinSpacing: true, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 2 } })
         .to(objects, { x: (index) => movements[index].x, y: (index) => movements[index].y, rotateX: 18, rotateY: -24, scale: .22, opacity: 0, duration: 1, stagger: .025, ease: "power2.inOut" })
