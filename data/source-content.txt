@@ -1,0 +1,274 @@
+HerNex Website Content & Section Blueprint
+Version 1.0 | Master Website Draft
+WEBSITE STRUCTURE
+Primary Navigation
+Home
+Services
+Industries
+Case Studies
+Resources
+About Us
+Contact Us
+Book a Free Strategy Call (CTA)
+1. HOME PAGE
+Objective
+Introduce HerNex, establish trust, explain what we do, showcase our expertise, and convert visitors into qualified leads.
+Sections
+Hero Banner
+Headline
+Supporting copy
+Primary CTA
+Secondary CTA
+Background image/video
+Trusted By / Featured In
+Client logos
+Certifications
+Awards
+Media mentions
+The Challenges We Solve
+Common marketing problems
+Pain points businesses face
+Our Services
+Overview of the 8 service pillars
+Link to individual service pages
+Why HerNex
+Key differentiators
+Value proposition
+AI-first approach
+Transparent processes
+Our ProcessDiscover → Strategy → Execute → Optimize → Scale
+Client Success Stories
+Featured case studies
+Before & after results
+Testimonials
+Industries We Serve
+Latest Insights
+Featured blogs
+Guides
+Reports
+FAQs
+Final CTA
+2. ABOUT US
+Objective
+Build trust through the company's story, people, values, and expertise.
+Sections
+Our Story
+Vision
+Mission
+Our Values
+Meet the Team
+Why Businesses Choose HerNex
+Our Working Process
+Awards & Recognition
+FAQs
+CTA
+3. SERVICES (Landing Page)
+Objective
+Introduce all service categories and direct users to detailed service pages.
+Sections
+Hero
+Why Digital Marketing Matters
+Our 8 Core Service Categories
+How We Work
+Why Choose HerNex
+Industries We Serve
+FAQs
+CTA
+4. INDIVIDUAL SERVICE PAGES
+Each service page must follow a consistent structure.
+Sections
+Hero
+What is this service?
+Why does your business need it?
+Common business challenges
+Our solution
+Benefits
+What's included
+Our process
+Tools & technologies
+Industries served
+Case studies
+Testimonials
+FAQs
+Related services
+Final CTA
+5. INDUSTRIES
+Dedicated landing pages for each target industry.
+Sections
+Industry Overview
+Common Challenges
+How HerNex Helps
+Recommended Services
+Case Studies
+FAQs
+CTA
+6. CASE STUDIES
+Sections
+Client Background
+Business Challenge
+Objectives
+Strategy
+Execution
+Results (metrics)
+Client Testimonial
+Key Takeaways
+Related Services
+CTA
+7. RESOURCES HUB
+The Resources section should become HerNex's knowledge center and support both organic traffic and AI search visibility.
+Categories
+Blog
+Educational articles addressing industry questions and trends.
+AI Search Hub
+Topics:
+SEO
+AEO
+GEO
+LLMO
+Google AI Overviews
+ChatGPT Search
+Perplexity
+Gemini
+Entity SEO
+Schema Markup
+Guides
+Step-by-step implementation resources.
+Templates
+Downloadable marketing templates.
+Checklists
+Actionable checklists for marketers and business owners.
+Whitepapers
+In-depth research and thought leadership.
+Research Reports
+Original surveys, benchmarks, and industry reports.
+Webinars & Workshops
+Recorded sessions and upcoming events.
+8. BLOG
+Purpose
+Answer real user questions, establish topical authority, and increase visibility in search engines and AI-generated answers.
+Standard Blog Structure
+Hero Image
+Article Title
+Author Information
+Last Updated Date
+Table of Contents
+Quick Answer / Summary
+Introduction
+Main Content (H2/H3 sections)
+Visuals (images, charts, infographics)
+Expert Insights
+Examples / Case Studies
+Key Takeaways
+Frequently Asked Questions
+Related Articles
+CTA
+References (where applicable)
+9. FAQ HUB
+Create both page-specific FAQs and a centralized FAQ hub.
+Categories
+General
+Services
+SEO
+Websites
+Performance Marketing
+Branding
+Automation
+Pricing
+Process
+Support
+10. CONTACT
+Sections
+Contact Form
+Book a Strategy Call
+WhatsApp
+Email
+Phone
+Office Location
+Google Map
+Business Hours
+FAQs
+11. FOOTER
+Quick Links
+Services
+Industries
+Resources
+Case Studies
+Company
+Legal
+Newsletter Signup
+Social Media
+Contact Details
+CONTENT TYPES TO BE CREATED
+Core Website Pages
+Home
+About
+Services
+Individual Service Pages
+Industry Pages
+Case Studies
+Resources
+Contact
+Privacy Policy
+Terms & Conditions
+Cookie Policy
+404 Page
+Thank You Page
+Evergreen Content
+How-To Guides
+Beginner Guides
+Advanced Guides
+Tool Comparisons
+Platform Comparisons
+Marketing Frameworks
+Industry Reports
+Case Studies
+Success Stories
+Original Research
+FAQs
+Templates
+Checklists
+Glossary
+SEO & AI CONTENT REQUIREMENTS
+Every page should include:
+Primary keyword
+Secondary keywords
+Search intent alignment
+Optimized headings (H1–H3)
+Internal links
+Clear CTAs
+FAQ section
+Relevant schema markup
+Author information
+Last updated date
+Entity references (where relevant)
+Original examples or proof points
+Scannable formatting (lists, tables, callouts)
+CONTENT WRITING STANDARDS
+Write for humans first, then optimize for search.
+Lead with the answer before expanding on details.
+Keep paragraphs concise and easy to scan.
+Use active voice and plain language.
+Demonstrate experience with real examples, case studies, and measurable outcomes.
+Focus on benefits and business impact rather than features alone.
+Ensure every page has a clear next step for the visitor.
+CONTENT PUBLISHING ROADMAP
+Phase 1 – Core Website
+Home
+About
+Services
+8 Service Pillars
+Contact
+5–10 Industry Pages
+Phase 2 – Authority Building
+20–30 foundational blog posts
+10 case studies
+AI Search Hub
+FAQ Hub
+Phase 3 – Growth
+Original research reports
+Whitepapers
+Downloadable templates
+Marketing calculators
+Webinars
+Interactive tools
+Knowledge Academy

@@ -1,0 +1,148 @@
+<canvas id="hero-ripple-canvas" class="pointer-events-none absolute inset-0 z-[4] size-full opacity-100 mix-blend-overlay" aria-hidden="true"></canvas>
+
+<script>
+  const initHeroRipple = () => {
+    const hero = document.querySelector<HTMLElement>("[data-hero-section]");
+    const canvas = document.querySelector<HTMLCanvasElement>("#hero-ripple-canvas");
+    if (!hero || !canvas || canvas.dataset.ready || matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
+    canvas.dataset.ready = "true";
+
+    const context = canvas.getContext("2d", { alpha: true });
+    if (!context) return;
+
+    const state = {
+      dpr: Math.min(devicePixelRatio || 1, 2),
+      width: 0,
+      height: 0,
+      active: false,
+      lastTime: 0,
+      lastX: 0,
+      lastY: 0,
+      ripples: [] as Array<{ x: number; y: number; born: number; strength: number; radius: number; vx: number; vy: number }>,
+    };
+
+    const resize = () => {
+      const rect = hero.getBoundingClientRect();
+      state.width = rect.width;
+      state.height = rect.height;
+      canvas.width = Math.ceil(rect.width * state.dpr);
+      canvas.height = Math.ceil(rect.height * state.dpr);
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      context.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+    };
+
+    const addRipple = (x: number, y: number, now: number, speed: number, vx = 0, vy = 0) => {
+      const safeX = state.width * .5;
+      const safeY = state.height * .38;
+      const safe = Math.hypot((x - safeX) / (state.width * .35), (y - safeY) / (state.height * .25));
+      const safeFade = Math.min(1, Math.max(.32, safe));
+      state.ripples.push({
+        x,
+        y,
+        born: now,
+        strength: Math.min(1.15, (.58 + speed / 620) * safeFade),
+        radius: 150 + Math.min(260, speed * .42),
+        vx,
+        vy,
+      });
+      if (state.ripples.length > 24) state.ripples.shift();
+    };
+
+    const localPoint = (event: PointerEvent) => {
+      const rect = hero.getBoundingClientRect();
+      return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    };
+
+    hero.addEventListener("pointerenter", (event) => {
+      const point = localPoint(event);
+      state.active = true;
+      state.lastX = point.x;
+      state.lastY = point.y;
+      state.lastTime = performance.now();
+      addRipple(point.x, point.y, state.lastTime, 260);
+    }, { passive: true });
+
+    hero.addEventListener("pointermove", (event) => {
+      const now = performance.now();
+      const point = localPoint(event);
+      const distance = Math.hypot(point.x - state.lastX, point.y - state.lastY);
+      const speed = distance / Math.max(16, now - state.lastTime) * 1000;
+      if (distance > 10 || now - state.lastTime > 42) {
+        addRipple(point.x, point.y, now, speed, point.x - state.lastX, point.y - state.lastY);
+        state.lastX = point.x;
+        state.lastY = point.y;
+        state.lastTime = now;
+      }
+    }, { passive: true });
+
+    hero.addEventListener("pointerleave", () => { state.active = false; }, { passive: true });
+    addEventListener("resize", resize, { passive: true });
+    resize();
+
+    const draw = (now: number) => {
+      context.clearRect(0, 0, state.width, state.height);
+      context.globalCompositeOperation = "source-over";
+      for (let index = state.ripples.length - 1; index >= 0; index--) {
+        const ripple = state.ripples[index];
+        const age = (now - ripple.born) / 1600;
+        if (age >= 1) {
+          state.ripples.splice(index, 1);
+          continue;
+        }
+        const ease = 1 - (1 - age) ** 2.6;
+        const radius = 14 + ripple.radius * ease;
+        const alpha = ripple.strength * (1 - age) ** 1.35;
+        const hue = 220 + (ripple.x / Math.max(1, state.width)) * 70;
+        const direction = Math.atan2(ripple.vy, ripple.vx || .001);
+        const offsetX = Math.cos(direction || -0.75) * 10 * ripple.strength;
+        const offsetY = Math.sin(direction || -0.75) * 10 * ripple.strength;
+
+        const field = context.createRadialGradient(ripple.x, ripple.y, radius * .18, ripple.x, ripple.y, radius);
+        field.addColorStop(0, `rgba(255,255,255,0)`);
+        field.addColorStop(.45, `hsla(${hue}, 90%, 88%, ${alpha * .08})`);
+        field.addColorStop(.62, `rgba(255,255,255,${alpha * .22})`);
+        field.addColorStop(.72, `hsla(${hue + 24}, 90%, 72%, ${alpha * .16})`);
+        field.addColorStop(1, `rgba(255,255,255,0)`);
+        context.globalCompositeOperation = "overlay";
+        context.fillStyle = field;
+        context.beginPath();
+        context.arc(ripple.x, ripple.y, radius, 0, Math.PI * 2);
+        context.fill();
+
+        context.globalCompositeOperation = "soft-light";
+        context.lineCap = "round";
+        context.lineWidth = 10 + ripple.strength * 8;
+        context.strokeStyle = `rgba(255,255,255,${alpha * .22})`;
+        context.shadowColor = `hsla(${hue}, 95%, 80%, ${alpha * .55})`;
+        context.shadowBlur = 18;
+        context.beginPath();
+        context.arc(ripple.x - offsetX, ripple.y - offsetY, radius * .82, -0.2, Math.PI * 1.45);
+        context.stroke();
+
+        context.globalCompositeOperation = "multiply";
+        context.lineWidth = 7 + ripple.strength * 5;
+        context.strokeStyle = `hsla(${hue + 35}, 70%, 56%, ${alpha * .12})`;
+        context.shadowBlur = 0;
+        context.beginPath();
+        context.arc(ripple.x + offsetX, ripple.y + offsetY, radius * .9, Math.PI * .8, Math.PI * 2.15);
+        context.stroke();
+
+        context.globalCompositeOperation = "screen";
+        context.lineWidth = 1.8;
+        context.strokeStyle = `rgba(255,255,255,${alpha * .45})`;
+        for (let ring = 0; ring < 2; ring++) {
+          context.beginPath();
+          context.arc(ripple.x, ripple.y, radius * (.48 + ring * .24), 0, Math.PI * 2);
+          context.stroke();
+        }
+      }
+      requestAnimationFrame(draw);
+    };
+
+    requestAnimationFrame(draw);
+  };
+
+  initHeroRipple();
+  document.addEventListener("astro:page-load", initHeroRipple);
+</script>

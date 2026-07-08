@@ -1,0 +1,8 @@
+---
+const items = ["Women-led agency", "Brand strategy", "Content systems", "Campaigns", "Websites", "Automation", "Growth strategy", "SEO"];
+---
+<section class="overflow-hidden border-y border-line bg-paper py-4" aria-label="HerNexAI capabilities">
+  <div class="marquee-track flex w-max gap-10 whitespace-nowrap font-mono text-xs uppercase tracking-[.16em] text-muted">
+    {[...items, ...items].map((item) => <span>✦ {item}</span>)}
+  </div>
+</section>

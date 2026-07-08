@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { validSession } from "../../lib/auth";
+import { getPosts } from "../../lib/blog";
+const posts = await getPosts();
+const post = posts.find((item) => item.slug === Astro.params.slug);
+const signedIn = validSession(Astro.cookies.get("hernex_admin")?.value);
+if (!post || (post.status !== "published" && !signedIn)) return Astro.redirect("/blog");
+const date = new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "long", year: "numeric" });
+---
+<BaseLayout title={`${post.title} — HerNexAI`} description={post.excerpt}>
+  <article>
+    <header class="mesh pb-20 pt-40 md:pb-28 md:pt-48"><div class="container"><a href="/blog" class="eyebrow hover:text-blue">← All Insights</a><h1 class="hero-heading mt-8 max-w-5xl font-black">{post.title}</h1><div class="mt-8 flex gap-4 text-sm text-muted"><span>{post.author}</span><span>·</span><time datetime={post.date}>{date.format(new Date(post.date))}</time>{post.status === "draft" && <span>· Draft preview</span>}</div>{post.coverImage && <img src={post.coverImage} alt="" class="mt-10 max-h-[460px] w-full rounded-[2rem] object-cover shadow-2xl" />}</div></header>
+    <div class="container py-16 md:py-24"><div class="rich-text mx-auto max-w-3xl">{post.content.split(/\n\n+/).map((paragraph) => <p>{paragraph}</p>)}</div></div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,9 @@
+---
+import { contact } from "../data/site";
+import WhatsAppIcon from "./WhatsAppIcon.astro";
+---
+<section class="container py-24 md:py-36">
+  <div class="reveal-on-scroll mesh overflow-hidden rounded-[2.25rem] border border-ink/10 p-8 shadow-[0_40px_120px_-75px_rgba(52,92,255,.6)] md:p-14">
+    <p class="eyebrow">Your Growth Blueprint</p><div class="mt-6 grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end"><h2 class="section-heading font-black">Your marketing should feel like a system, not daily chaos.</h2><div><p class="body-copy text-muted">We map the shortest path from positioning to pipeline, then build what supports that path.</p><div class="mt-7 flex flex-wrap gap-3"><a href={contact.whatsapp} target="_blank" rel="noreferrer" class="magnetic inline-flex items-center gap-2 rounded-full bg-[#25d366] px-6 py-4 text-sm font-black text-ink hover:bg-lime"><WhatsAppIcon />Start WhatsApp Chat</a><a href={`mailto:${contact.email}`} class="rounded-full border border-ink/15 bg-paper/70 px-6 py-4 text-sm font-bold hover:bg-paper">Email Team</a></div></div></div>
+  </div>
+</section>

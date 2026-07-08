@@ -1,0 +1,13 @@
+---
+import { faqs } from "../data/site";
+---
+<section id="faq" class="scroll-mt-24 border-t border-line py-24 md:py-36">
+  <div class="container">
+    <div class="reveal-on-scroll mx-auto max-w-4xl text-center">
+      <p class="eyebrow">05 / FAQ</p>
+      <h2 class="faq-shimmer section-heading mt-5 font-black">Useful answers, without the agency fog.</h2>
+      <p class="body-copy mx-auto mt-6 max-w-2xl text-muted">A clear project starts with clear expectations. These are the questions most teams ask first.</p>
+    </div>
+    <div class="reveal-on-scroll mx-auto mt-14 max-w-5xl overflow-hidden rounded-[1.5rem] border border-line bg-paper">{faqs.map(([question, answer]) => <details class="faq-item group border-b border-line last:border-0"><summary class="flex cursor-pointer list-none items-center justify-between gap-6 p-6 text-base font-bold leading-snug md:p-8 md:text-lg">{question}<span class="grid size-9 shrink-0 place-items-center rounded-full bg-smoke text-xl transition-transform duration-300 group-open:rotate-45">+</span></summary><div class="faq-answer grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 group-open:grid-rows-[1fr]"><p class="body-copy min-h-0 overflow-hidden px-6 text-muted group-open:pb-7 md:px-8">{answer}</p></div></details>)}</div>
+  </div>
+</section>

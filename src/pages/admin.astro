@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { validSession } from "../lib/auth";
+import { getPosts } from "../lib/blog";
+const signedIn = validSession(Astro.cookies.get("hernex_admin")?.value);
+const posts = signedIn ? await getPosts() : [];
+---
+<BaseLayout title="Blog Admin — HerNexAI" description="HerNexAI blog publishing dashboard.">
+  <section class="mesh min-h-[78vh] pt-36 pb-20 md:pt-44">
+    <div class={`container ${!signedIn ? "max-w-xl text-center" : ""}`}>
+      <p class="eyebrow">HerNexAI CMS</p><h1 class="section-heading mt-5 font-black">{signedIn ? "Manage blog posts." : "Admin sign in."}</h1>
+      {!signedIn ? (
+        <form id="login-form" class="mx-auto mt-12 max-w-md rounded-[1.75rem] border border-line bg-white p-7 text-left shadow-xl">
+          <label for="email" class="block text-sm font-bold">Admin email</label>
+          <input id="email" name="email" type="email" autocomplete="username" class="mt-3 w-full rounded-xl border border-line bg-smoke px-4 py-3" required />
+          <label for="password" class="mt-4 block text-sm font-bold">Admin password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" class="mt-3 w-full rounded-xl border border-line bg-smoke px-4 py-3" required />
+          <button class="mt-4 w-full rounded-xl bg-ink px-5 py-3 font-bold text-white hover:bg-blue">Sign In</button>
+          <p id="status" class="mt-4 text-sm text-coral" aria-live="polite"></p>
+        </form>
+      ) : (
+        <div class="mt-12 grid gap-6 lg:grid-cols-[.85fr_1.15fr]">
+          <aside class="rounded-[1.75rem] border border-line bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-between gap-4">
+              <h2 class="text-xl font-black">Published posts</h2>
+              <button id="new-post" class="rounded-full bg-ink px-4 py-2 text-sm font-bold text-white hover:bg-blue">New</button>
+            </div>
+            <div class="mt-5 grid gap-3">
+              {posts.map((post) => (
+                <article class="rounded-2xl border border-line bg-smoke p-4">
+                  <p class="text-xs font-bold uppercase tracking-[.14em] text-muted">{new Date(post.date).toLocaleDateString("en-IN")} · {post.status}</p>
+                  <h3 class="mt-2 font-black">{post.title}</h3>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    <button type="button" data-edit={post.slug} class="rounded-full border border-ink/15 bg-white px-3 py-2 text-sm font-bold hover:border-blue hover:text-blue">Edit</button>
+                    <a href={`/blog/${post.slug}`} class="rounded-full border border-ink/15 bg-white px-3 py-2 text-sm font-bold hover:border-blue hover:text-blue">Preview</a>
+                    <button type="button" data-delete={post.slug} class="rounded-full border border-red-200 bg-white px-3 py-2 text-sm font-bold text-red-600 hover:bg-red-50">Delete</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </aside>
+          <form id="post-form" class="grid gap-5 rounded-[1.75rem] border border-line bg-white p-7 shadow-xl md:p-10">
+            <div><label for="title" class="text-sm font-bold">Article title</label><input id="title" name="title" maxlength="140" autocomplete="off" placeholder="A clear, useful headline…" class="mt-2 w-full rounded-xl border border-line bg-smoke px-4 py-3" required /></div>
+            <div class="grid gap-5 md:grid-cols-2">
+              <div><label for="slug" class="text-sm font-bold">Slug</label><input id="slug" name="slug" maxlength="90" autocomplete="off" placeholder="blog-post-url" class="mt-2 w-full rounded-xl border border-line bg-smoke px-4 py-3" required /></div>
+              <div><label for="date" class="text-sm font-bold">Date</label><input id="date" name="date" type="date" class="mt-2 w-full rounded-xl border border-line bg-smoke px-4 py-3" required /></div>
+            </div>
+            <div class="grid gap-5 md:grid-cols-[1fr_220px]">
+              <div><label for="coverImage" class="text-sm font-bold">Cover image URL</label><input id="coverImage" name="coverImage" type="url" autocomplete="off" placeholder="https://…" class="mt-2 w-full rounded-xl border border-line bg-smoke px-4 py-3" /></div>
+              <div><label for="statusField" class="text-sm font-bold">Status</label><select id="statusField" name="status" class="mt-2 w-full rounded-xl border border-line bg-smoke px-4 py-3"><option value="draft">Draft</option><option value="published">Published</option></select></div>
+            </div>
+            <div><label for="excerpt" class="text-sm font-bold">Short excerpt</label><textarea id="excerpt" name="excerpt" maxlength="300" rows="3" autocomplete="off" placeholder="What will the reader learn?…" class="mt-2 w-full resize-y rounded-xl border border-line bg-smoke px-4 py-3" required></textarea></div>
+            <div><label for="content" class="text-sm font-bold">Article content</label><textarea id="content" name="content" rows="14" autocomplete="off" placeholder="Write the article here. Separate paragraphs with a blank line…" class="mt-2 w-full resize-y rounded-xl border border-line bg-smoke px-4 py-3" required></textarea></div>
+            <div class="flex flex-wrap gap-3"><button class="rounded-xl bg-ink px-5 py-4 font-bold text-white hover:bg-blue">Save Post</button><a id="preview-link" href="/blog" class="rounded-xl border border-ink/15 bg-white px-5 py-4 font-bold hover:border-blue hover:text-blue">Preview</a></div>
+            <p id="status" class="text-sm text-muted" aria-live="polite"></p>
+          </form>
+        </div>
+      )}
+    </div>
+  </section>
+  {signedIn && (
+    <dialog id="delete-dialog" class="w-[min(92vw,440px)] rounded-[1.75rem] border border-line bg-white p-0 text-ink shadow-2xl">
+      <div class="p-7">
+        <p class="eyebrow">Confirm delete</p>
+        <h2 class="mt-3 text-2xl font-black">Delete this blog post?</h2>
+        <p id="delete-title" class="mt-3 text-sm leading-relaxed text-muted">This action cannot be undone.</p>
+        <div class="mt-7 flex flex-wrap justify-end gap-3">
+          <button id="cancel-delete" type="button" class="rounded-full border border-ink/15 bg-white px-5 py-3 text-sm font-bold hover:bg-smoke">Cancel</button>
+          <button id="confirm-delete" type="button" class="rounded-full bg-red-600 px-5 py-3 text-sm font-bold text-white hover:bg-red-700">Delete Post</button>
+        </div>
+      </div>
+    </dialog>
+  )}
+</BaseLayout>
+
+<script define:vars={{ signedIn, posts }}>
+  const form = document.querySelector(signedIn ? "#post-form" : "#login-form");
+  const status = document.querySelector("#status");
+  const submitButton = form?.querySelector("button");
+  const previewLink = document.querySelector("#preview-link");
+  const today = new Date().toISOString().slice(0, 10);
+  const slugify = (value) => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 80);
+  const fillForm = (post = { slug: "", title: "", excerpt: "", content: "", coverImage: "", status: "draft", date: today }) => {
+    for (const key of ["slug", "title", "excerpt", "content", "coverImage", "status", "date"]) {
+      const field = form?.querySelector(`[name="${key}"]`);
+      if (field) field.value = post[key] || (key === "date" ? today : "");
+    }
+    if (submitButton) submitButton.textContent = post.slug ? "Update Post" : "Save Post";
+    if (previewLink) previewLink.href = post.slug ? `/blog/${post.slug}` : "/blog";
+  };
+
+  if (signedIn) {
+    fillForm();
+    form?.querySelector("[name='title']")?.addEventListener("input", (event) => {
+      const slug = form?.querySelector("[name='slug']");
+      if (slug && !slug.value) slug.value = slugify(event.target.value);
+    });
+    form?.querySelector("[name='slug']")?.addEventListener("input", (event) => {
+      if (previewLink) previewLink.href = event.target.value ? `/blog/${slugify(event.target.value)}` : "/blog";
+    });
+  }
+
+  document.querySelector("#new-post")?.addEventListener("click", () => fillForm());
+  document.querySelectorAll("[data-edit]").forEach((button) => button.addEventListener("click", () => {
+    const post = posts.find((item) => item.slug === button.dataset.edit);
+    if (post) fillForm(post);
+    form?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }));
+  const deleteDialog = document.querySelector("#delete-dialog");
+  const deleteTitle = document.querySelector("#delete-title");
+  let pendingDelete = "";
+  document.querySelector("#cancel-delete")?.addEventListener("click", () => deleteDialog?.close());
+  document.querySelectorAll("[data-delete]").forEach((button) => button.addEventListener("click", () => {
+    const post = posts.find((item) => item.slug === button.dataset.delete);
+    pendingDelete = button.dataset.delete || "";
+    if (deleteTitle) deleteTitle.textContent = post ? `“${post.title}” will be permanently removed.` : "This action cannot be undone.";
+    deleteDialog?.showModal();
+  }));
+  document.querySelector("#confirm-delete")?.addEventListener("click", async () => {
+    if (!pendingDelete) return;
+    const response = await fetch("/api/blog", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug: pendingDelete }) });
+    if (response.ok) window.location.reload();
+    else if (status) status.textContent = (await response.json()).error || "Delete failed.";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const button = form.querySelector("button");
+    const isEdit = Boolean(form.querySelector("[name='slug']")?.value);
+    if (button) { button.disabled = true; button.textContent = signedIn ? "Saving…" : "Signing in…"; }
+    const payload = Object.fromEntries(new FormData(form).entries());
+    const response = await fetch(signedIn ? "/api/blog" : "/api/login", { method: signedIn && isEdit ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const data = await response.json();
+    if (response.ok) window.location.reload();
+    else if (status) status.textContent = data.error || "Something went wrong. Please try again.";
+    if (button) { button.disabled = false; button.textContent = signedIn ? (isEdit ? "Update Post" : "Save Post") : "Sign In"; }
+  });
+</script>
+
+<style>
+  #delete-dialog::backdrop {
+    background: rgb(17 21 42 / .48);
+    backdrop-filter: blur(10px);
+  }
+</style>

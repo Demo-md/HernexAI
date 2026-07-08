@@ -1,0 +1,37 @@
+---
+import { process } from "../data/site";
+const descriptions = ["Find the real constraint", "Clarify market and message", "Create the system", "Go live with confidence", "Learn from the signal", "Compound what works"];
+const detail = [
+  "We audit the offer, audience, channels, and customer journey before recommending activity.",
+  "We sharpen positioning, priorities, and the message every campaign needs to reinforce.",
+  "We connect content, pages, campaigns, follow-up, and measurement into one practical plan.",
+  "We launch with clean ownership, tracking, and a clear path from attention to enquiry.",
+  "We read performance honestly, identify friction, and improve the highest-leverage step.",
+  "We repeat what works, simplify what does not, and expand without creating daily chaos.",
+];
+---
+<section id="process" class="operating-story relative overflow-x-clip bg-smoke py-24 md:py-36">
+  <div class="container">
+    <div class="reveal-on-scroll max-w-4xl"><p class="eyebrow">03 / Marketing operating system</p><h2 class="section-heading mt-5 font-black">From fuzzy ambition to repeatable growth.</h2><p class="body-copy mt-6 max-w-2xl text-muted">A connected process keeps strategy, creative, execution, and measurement moving in the same direction.</p></div>
+    <div class="mt-16 grid gap-12 lg:grid-cols-[.92fr_1.08fr] lg:gap-20">
+      <div class="os-steps">
+        {process.map((step, index) => (
+          <article class="os-step flex min-h-[46vh] gap-5 border-t border-line py-9 last:border-b" data-step={index}>
+            <span class="eyebrow mt-1 tabular-nums">0{index + 1}</span><div><h3 class="card-heading font-black">{step}</h3><p class="mt-2 text-base font-semibold text-blue">{descriptions[index]}</p><p class="body-copy mt-5 max-w-xl text-muted">{detail[index]}</p></div>
+          </article>
+        ))}
+      </div>
+      <div class="relative hidden lg:block">
+        <div class="os-visual sticky top-20 h-[calc(100vh-6rem)] min-h-[500px] max-h-[570px] overflow-hidden rounded-[2rem] border border-white/10 bg-ink p-8 text-white shadow-[0_40px_120px_-70px_rgba(52,92,255,.65)]">
+          <div class="os-glow absolute left-1/2 top-1/2 size-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue/25 blur-[85px]"></div>
+          <div class="absolute inset-0 opacity-[.08]" style="background-image:linear-gradient(rgba(255,255,255,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);background-size:42px 42px"></div>
+          <div class="relative z-10 flex items-center justify-between"><span class="eyebrow text-white/40">HerNex workflow</span><span class="os-counter rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-lime">01 / 06</span></div>
+          <div class="relative z-10 mt-8 grid h-[420px] grid-cols-[70px_1fr] gap-8">
+            <div class="relative flex flex-col items-center justify-between py-3"><span class="absolute bottom-3 top-3 w-px bg-white/12"></span><span class="os-progress absolute left-1/2 top-3 h-[calc(100%-24px)] w-px origin-top -translate-x-1/2 scale-y-0 bg-gradient-to-b from-blue via-lavender to-lime"></span>{process.map((_, index) => <span class="os-node relative z-10 grid size-10 place-items-center rounded-full border border-white/15 bg-ink text-xs font-bold text-white/35" data-node={index}>{index + 1}</span>)}</div>
+            <div class="flex flex-col justify-center"><p class="os-kicker eyebrow text-lavender">Discover</p><h3 class="os-title mt-5 text-5xl font-black leading-none tracking-[-.03em]">Find the real constraint.</h3><p class="os-description body-copy mt-6 max-w-md text-white/55">{detail[0]}</p><div class="mt-10 flex items-end gap-2"><span class="os-bar h-12 w-5 rounded-t bg-blue/35"></span><span class="os-bar h-20 w-5 rounded-t bg-lavender/45"></span><span class="os-bar h-28 w-5 rounded-t bg-peach/55"></span><span class="os-bar h-36 w-5 rounded-t bg-lime/75"></span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
