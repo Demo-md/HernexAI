@@ -115,13 +115,18 @@ p { text-wrap: pretty; }
 }
 
 @media (max-width: 767px) {
+  .hero-heading { font-size: clamp(2.65rem, 13.5vw, 4.5rem); line-height: .96; letter-spacing: -.032em; }
+  .section-heading { font-size: clamp(2.25rem, 10.5vw, 3.8rem); line-height: 1; }
+  .card-heading { font-size: clamp(1.7rem, 8vw, 2.5rem); }
   .system-node { min-width: 82px; padding: 8px 9px; }
   .system-node strong { font-size: 10px; }
   .marketing-object { padding: 8px 9px; }
   .os-step { min-height: auto; }
-  .services-pin { height: auto; min-height: auto; overflow: visible; padding: 6rem 1rem; }
+  .services-pin { height: auto; min-height: auto; overflow: visible; padding: 5rem .75rem; }
   .services-copy { position: relative; inset: auto; top: auto; }
   .services-stage { position: relative; left: auto; top: auto; display: grid; width: 100%; height: auto; margin: 3rem auto 0; translate: none; transform: none; gap: 1rem; perspective: none; }
-  .service-stack-card { position: relative; inset: auto; min-height: 400px; opacity: 1 !important; transform: none !important; filter: none !important; }
+  .service-stack-card { position: relative; inset: auto; min-height: 340px; padding: 1.25rem; opacity: 1 !important; transform: none !important; filter: none !important; backdrop-filter: none; }
   .services-progress { display: none; }
+  .why-spotlight, .services-stack-aura { filter: blur(70px); }
+  .service-stack-card, .mobile-lazy-card { content-visibility: auto; contain-intrinsic-size: auto 340px; }
 }

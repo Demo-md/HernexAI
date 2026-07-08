@@ -1,17 +1,26 @@
 <canvas id="hero-ripple-canvas" class="pointer-events-none absolute inset-x-0 top-0 z-[4] h-[100svh] w-full opacity-80" aria-hidden="true"></canvas>
 
+<style>
+  #hero-ripple-canvas {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  }
+</style>
+
 <script>
   const initHeroRipple = () => {
     const hero = document.querySelector<HTMLElement>("[data-hero-section]");
     const canvas = document.querySelector<HTMLCanvasElement>("#hero-ripple-canvas");
-    if (!hero || !canvas || canvas.dataset.ready || matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
+    if (!hero || !canvas || canvas.dataset.ready || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     canvas.dataset.ready = "true";
+    const coarse = matchMedia("(pointer: coarse)").matches;
+    const controller = new AbortController();
 
     const context = canvas.getContext("2d", { alpha: true });
     if (!context) return;
 
     const state = {
-      dpr: Math.min(devicePixelRatio || 1, 1.5),
+      dpr: Math.min(devicePixelRatio || 1, coarse ? 1 : 1.5),
       width: 0,
       height: 0,
       active: false,
@@ -47,7 +56,7 @@
         vx,
         vy,
       });
-      if (state.ripples.length > 24) state.ripples.shift();
+      if (state.ripples.length > (coarse ? 10 : 24)) state.ripples.shift();
       if (!state.frame) state.frame = requestAnimationFrame(draw);
     };
 
@@ -57,6 +66,7 @@
     };
 
     hero.addEventListener("pointerenter", (event) => {
+      if (coarse) return;
       const point = localPoint(event);
       if (point.y < 0 || point.y > state.height) return;
       state.active = true;
@@ -64,7 +74,16 @@
       state.lastY = point.y;
       state.lastTime = performance.now();
       addRipple(point.x, point.y, state.lastTime, 260);
-    }, { passive: true });
+    }, { passive: true, signal: controller.signal });
+
+    hero.addEventListener("pointerdown", (event) => {
+      const point = localPoint(event);
+      if (point.y < 0 || point.y > state.height) return;
+      state.lastX = point.x;
+      state.lastY = point.y;
+      state.lastTime = performance.now();
+      addRipple(point.x, point.y, state.lastTime, coarse ? 120 : 260);
+    }, { passive: true, signal: controller.signal });
 
     hero.addEventListener("pointermove", (event) => {
       const now = performance.now();
@@ -72,16 +91,17 @@
       if (point.y < 0 || point.y > state.height) { state.active = false; return; }
       const distance = Math.hypot(point.x - state.lastX, point.y - state.lastY);
       const speed = distance / Math.max(16, now - state.lastTime) * 1000;
-      if (distance > 10 || now - state.lastTime > 42) {
+      if (distance > (coarse ? 24 : 10) || now - state.lastTime > (coarse ? 90 : 42)) {
         addRipple(point.x, point.y, now, speed, point.x - state.lastX, point.y - state.lastY);
         state.lastX = point.x;
         state.lastY = point.y;
         state.lastTime = now;
       }
-    }, { passive: true });
+    }, { passive: true, signal: controller.signal });
 
-    hero.addEventListener("pointerleave", () => { state.active = false; }, { passive: true });
-    addEventListener("resize", resize, { passive: true });
+    hero.addEventListener("pointerleave", () => { state.active = false; }, { passive: true, signal: controller.signal });
+    addEventListener("resize", resize, { passive: true, signal: controller.signal });
+    document.addEventListener("astro:before-swap", () => { controller.abort(); if (state.frame) cancelAnimationFrame(state.frame); }, { once: true });
     resize();
 
     const draw = (now: number) => {
@@ -89,7 +109,7 @@
       context.globalCompositeOperation = "source-over";
       for (let index = state.ripples.length - 1; index >= 0; index--) {
         const ripple = state.ripples[index];
-        const age = (now - ripple.born) / 1600;
+        const age = (now - ripple.born) / (coarse ? 1100 : 1600);
         if (age >= 1) {
           state.ripples.splice(index, 1);
           continue;
@@ -119,7 +139,7 @@
         context.lineWidth = 10 + ripple.strength * 8;
         context.strokeStyle = `rgba(255,255,255,${alpha * .22})`;
         context.shadowColor = `hsla(${hue}, 95%, 80%, ${alpha * .55})`;
-        context.shadowBlur = 18;
+        context.shadowBlur = coarse ? 6 : 18;
         context.beginPath();
         context.arc(ripple.x - offsetX, ripple.y - offsetY, radius * .82, -0.2, Math.PI * 1.45);
         context.stroke();

@@ -28,13 +28,17 @@ function initMotion() {
   context?.revert(); controller?.abort(); lenis?.destroy(); pulseAnimation?.kill(); if (wordTimer) clearInterval(wordTimer); ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
   controller = new AbortController();
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const desktop = innerWidth >= 768;
+  const finePointer = matchMedia("(pointer: fine)").matches;
   const stackCards = gsap.utils.toArray<HTMLAnchorElement>(".service-stack-card");
   const setStackAccess = (active: number | null) => stackCards.forEach((card, index) => { const visible = active === null || index === active; card.tabIndex = visible ? 0 : -1; card.style.pointerEvents = visible ? "auto" : "none"; card.setAttribute("aria-hidden", String(!visible)); });
   if (reduced || innerWidth < 768) setStackAccess(null);
   if (reduced) { document.querySelector(location.hash)?.scrollIntoView(); return; }
 
-  lenis = new Lenis({ duration: 1.05, smoothWheel: true, syncTouch: false });
-  lenis.on("scroll", ScrollTrigger.update);
+  if (desktop) {
+    lenis = new Lenis({ duration: 1.05, smoothWheel: true, syncTouch: false });
+    lenis.on("scroll", ScrollTrigger.update);
+  }
   document.addEventListener("click", (event) => {
     const anchor = (event.target as Element).closest<HTMLAnchorElement>("a[href*='#']");
     if (!anchor) return;
@@ -42,18 +46,20 @@ function initMotion() {
     if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
     const target = document.querySelector<HTMLElement>(url.hash);
     if (!target) return;
-    event.preventDefault(); history.pushState(null, "", url.hash); lenis?.scrollTo(target, { offset: -76, duration: 1.05 });
+    event.preventDefault(); history.pushState(null, "", url.hash); lenis ? lenis.scrollTo(target, { offset: -76, duration: 1.05 }) : target.scrollIntoView({ behavior: "smooth" });
   }, { signal: controller.signal });
 
   context = gsap.context(() => {
     const heroTitle = document.querySelector<HTMLElement>("[data-hero-title]");
     if (heroTitle) gsap.fromTo(heroTitle, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: "power3.out", clearProps: "transform,opacity" });
     gsap.utils.toArray<HTMLElement>(".reveal-on-scroll").forEach((element) => gsap.fromTo(element, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .8, ease: "power3.out", clearProps: "transform,opacity", scrollTrigger: { trigger: element, start: "top 86%" } }));
-    document.querySelectorAll<HTMLElement>(".magnetic").forEach((button) => { button.addEventListener("pointermove", (event) => { const rect = button.getBoundingClientRect(); gsap.to(button, { x: (event.clientX - rect.left - rect.width / 2) * .12, y: (event.clientY - rect.top - rect.height / 2) * .12, duration: .25 }); }, { signal: controller?.signal }); button.addEventListener("pointerleave", () => gsap.to(button, { x: 0, y: 0, duration: .4, ease: "power2.out" }), { signal: controller?.signal }); });
+    if (finePointer) document.querySelectorAll<HTMLElement>(".magnetic").forEach((button) => { button.addEventListener("pointermove", (event) => { const rect = button.getBoundingClientRect(); gsap.to(button, { x: (event.clientX - rect.left - rect.width / 2) * .12, y: (event.clientY - rect.top - rect.height / 2) * .12, duration: .25 }); }, { signal: controller?.signal }); button.addEventListener("pointerleave", () => gsap.to(button, { x: 0, y: 0, duration: .4, ease: "power2.out" }), { signal: controller?.signal }); });
     const chatLauncher = document.querySelector<HTMLElement>("#chat-open");
-    chatLauncher?.addEventListener("pointermove", (event) => { const rect = chatLauncher.getBoundingClientRect(); gsap.to(chatLauncher, { rotateY: ((event.clientX - rect.left) / rect.width - .5) * 22, rotateX: -((event.clientY - rect.top) / rect.height - .5) * 18, scale: 1.06, transformPerspective: 700, duration: .28, ease: "power2.out" }); }, { signal: controller.signal });
-    chatLauncher?.addEventListener("pointerleave", () => gsap.to(chatLauncher, { rotateX: 0, rotateY: 0, scale: 1, duration: .5, ease: "power3.out" }), { signal: controller.signal });
-    document.querySelector<HTMLElement>(".hero-section")?.addEventListener("pointermove", (event) => gsap.to("#hero-glow", { x: (event.clientX / innerWidth - .5) * 70, y: (event.clientY / innerHeight - .5) * 50, duration: 1.2, ease: "power2.out" }), { signal: controller.signal });
+    if (finePointer) {
+      chatLauncher?.addEventListener("pointermove", (event) => { const rect = chatLauncher.getBoundingClientRect(); gsap.to(chatLauncher, { rotateY: ((event.clientX - rect.left) / rect.width - .5) * 22, rotateX: -((event.clientY - rect.top) / rect.height - .5) * 18, scale: 1.06, transformPerspective: 700, duration: .28, ease: "power2.out" }); }, { signal: controller.signal });
+      chatLauncher?.addEventListener("pointerleave", () => gsap.to(chatLauncher, { rotateX: 0, rotateY: 0, scale: 1, duration: .5, ease: "power3.out" }), { signal: controller.signal });
+      document.querySelector<HTMLElement>(".hero-section")?.addEventListener("pointermove", (event) => gsap.to("#hero-glow", { x: (event.clientX / innerWidth - .5) * 70, y: (event.clientY / innerHeight - .5) * 50, duration: 1.2, ease: "power2.out" }), { signal: controller.signal });
+    }
 
     const story = document.querySelector<HTMLElement>("#growth-story");
     const stage = document.querySelector<HTMLElement>("#growth-stage");
@@ -75,8 +81,7 @@ function initMotion() {
           .to(pulse, { attr: { cx: next.x, cy: next.y }, duration: .75, ease: "power2.inOut" })
           .to(pulse, { attr: { cx: 450, cy: 270 }, duration: .55, ease: "power2.inOut" }, "+=.12");
       };
-      movePulse();
-      const desktop = innerWidth >= 768;
+      ScrollTrigger.create({ trigger: story, start: "top bottom", end: "bottom top", onToggle: ({ isActive }) => { if (isActive) pulseAnimation ? pulseAnimation.resume() : movePulse(); else pulseAnimation?.pause(); } });
       gsap.timeline({ scrollTrigger: { trigger: story, start: desktop ? "top 10%" : "top 78%", end: desktop ? "+=1050" : "bottom 45%", scrub: desktop ? 1 : false, pin: desktop, pinSpacing: true, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 2 } })
         .to(objects, { x: (index) => movements[index].x, y: (index) => movements[index].y, rotateX: 18, rotateY: -24, scale: .22, opacity: 0, duration: 1, stagger: .025, ease: "power2.inOut" })
         .to(".stage-chaos", { y: -10, opacity: 0, duration: .25 }, .36).to(".stage-system", { y: 0, opacity: 1, duration: .35 }, .55)

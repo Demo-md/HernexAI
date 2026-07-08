@@ -6,7 +6,7 @@ import HeroRippleEffect from "./hero/HeroRippleEffect.astro";
 import HerNexGrowthSystem from "./hero/HerNexGrowthSystem.astro";
 import WhatsAppIcon from "./WhatsAppIcon.astro";
 ---
-<section data-hero-section class="hero-section relative min-h-screen overflow-hidden px-6 pb-24 pt-32 text-center md:pt-36">
+<section data-hero-section class="hero-section relative min-h-screen overflow-hidden px-4 pb-16 pt-28 text-center sm:px-6 sm:pb-24 md:pt-36">
   <HeroAnimatedBackground />
   <HeroRippleEffect />
   <div class="relative z-10 mx-auto flex max-w-6xl flex-col items-center">
@@ -14,7 +14,7 @@ import WhatsAppIcon from "./WhatsAppIcon.astro";
     <h1 data-hero-title class="hero-heading mt-6 max-w-[1050px] text-center font-black">From scattered marketing to a growth system that works.</h1>
     <div class="mt-6 flex items-center gap-2 rounded-full border border-blue/15 bg-white/65 px-4 py-2 text-sm font-bold text-muted shadow-sm backdrop-blur"><span>Connect your</span><span id="rotating-word" class="min-w-24 text-left text-blue">Strategy</span></div>
     <p class="body-copy mt-8 max-w-[760px] text-center text-muted">HerNexAI helps founders, coaches, and modern brands turn content, campaigns, websites, automation, and analytics into one clear growth engine.</p>
-    <div class="mt-9 flex flex-wrap items-center justify-center gap-4"><a href={contact.whatsapp} target="_blank" rel="noreferrer" class="magnetic inline-flex items-center gap-2 rounded-full bg-[#25d366] px-6 py-4 text-sm font-black text-ink shadow-[0_14px_38px_rgba(37,211,102,.22)] hover:bg-lime"><WhatsAppIcon />Start WhatsApp Chat</a><a href="/services" class="magnetic rounded-full border border-ink/15 bg-paper/75 px-6 py-4 text-sm font-bold backdrop-blur hover:bg-paper">Explore Services →</a></div>
+    <div class="mt-9 flex w-full flex-wrap items-center justify-center gap-3 sm:w-auto sm:gap-4"><a href={contact.whatsapp} target="_blank" rel="noreferrer" class="magnetic inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25d366] px-6 py-4 text-sm font-black text-ink shadow-[0_14px_38px_rgba(37,211,102,.22)] hover:bg-lime sm:w-auto"><WhatsAppIcon />Start WhatsApp Chat</a><a href="/services" class="magnetic w-full rounded-full border border-ink/15 bg-paper/75 px-6 py-4 text-sm font-bold backdrop-blur hover:bg-paper sm:w-auto">Explore Services →</a></div>
   </div>
   <HerNexGrowthSystem />
   <HeroForegroundSketchMotion />

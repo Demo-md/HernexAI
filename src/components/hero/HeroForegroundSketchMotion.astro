@@ -87,6 +87,10 @@
     const layer = document.querySelector<HTMLElement>(".hero-sketch");
     if (!layer || layer.dataset.ready || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     layer.dataset.ready = "true";
+    const observer = new IntersectionObserver(([entry]) => layer.classList.toggle("is-paused", !entry.isIntersecting), { rootMargin: "160px" });
+    observer.observe(layer);
+    document.addEventListener("astro:before-swap", () => observer.disconnect(), { once: true });
+    if (matchMedia("(pointer: coarse)").matches) return;
     const heroWindow = window as Window & { __hernexHeroSketchFrame?: number };
     if (heroWindow.__hernexHeroSketchFrame) cancelAnimationFrame(heroWindow.__hernexHeroSketchFrame);
 
@@ -177,6 +181,11 @@
     transform: translate(calc(var(--sx) * .55), calc(var(--sy) * .42));
     will-change: transform;
     mask-image: radial-gradient(ellipse at 50% 35%, transparent 0 25%, rgb(0 0 0 / .28) 43%, #000 72%);
+  }
+
+  .hero-sketch.is-paused,
+  .hero-sketch.is-paused * {
+    animation-play-state: paused !important;
   }
 
   .hero-sketch__waves {
@@ -374,6 +383,8 @@
     .side-wave {
       display: none;
     }
+
+    .hero-sketch__waves { filter: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {

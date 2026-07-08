@@ -17,7 +17,7 @@ const links = [["Services", "/services"], ["Process", "/#process"], ["Blog", "/b
   </nav>
 </header>
 
-<dialog id="mobile-menu" class="m-0 h-full w-full max-w-none bg-ink p-0 text-white backdrop:bg-ink/40">
+<dialog id="mobile-menu" class="m-0 h-full w-full max-w-none overflow-y-auto overscroll-contain bg-ink p-0 text-white backdrop:bg-ink/40">
   <div class="flex min-h-full flex-col px-5 pb-[max(28px,env(safe-area-inset-bottom))] pt-[max(20px,env(safe-area-inset-top))]">
     <div class="flex items-center justify-between"><a href="/" class="text-xl font-black">HerNex<span class="text-blue">AI</span></a><button id="menu-close" aria-label="Close navigation menu" class="grid size-11 place-items-center rounded-full bg-white/10 text-2xl">×</button></div>
     <div class="my-auto grid gap-2">{links.map(([label, href], index) => <a class="menu-link flex items-center justify-between border-b border-white/10 py-5 text-4xl font-black leading-tight tracking-[-.03em]" href={href}><span>{label}</span><span class="mono text-white/35">0{index + 1}</span></a>)}</div>

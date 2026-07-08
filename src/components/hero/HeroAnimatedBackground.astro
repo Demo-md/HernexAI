@@ -97,13 +97,17 @@
     const bg = document.querySelector<HTMLElement>(".hero-bg");
     if (!bg || bg.dataset.ready || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     bg.dataset.ready = "true";
+    const controller = new AbortController();
+    const observer = new IntersectionObserver(([entry]) => bg.classList.toggle("is-paused", !entry.isIntersecting), { rootMargin: "160px" });
+    observer.observe(bg);
 
-    window.addEventListener("pointermove", (event) => {
+    if (matchMedia("(pointer: fine)").matches) window.addEventListener("pointermove", (event) => {
       const x = (event.clientX / window.innerWidth - 0.5) * 18;
       const y = (event.clientY / window.innerHeight - 0.5) * 14;
       bg.style.setProperty("--mx", `${x}px`);
       bg.style.setProperty("--my", `${y}px`);
-    }, { passive: true });
+    }, { passive: true, signal: controller.signal });
+    document.addEventListener("astro:before-swap", () => { controller.abort(); observer.disconnect(); }, { once: true });
   };
 
   initHeroBackground();
@@ -395,6 +399,11 @@
     mask-image: radial-gradient(circle at 50% 40%, transparent 0 24%, #000 72%);
   }
 
+  .hero-bg.is-paused,
+  .hero-bg.is-paused * {
+    animation-play-state: paused !important;
+  }
+
   @keyframes hero-gradient {
     to { background-position: 70% 35%; }
   }
@@ -461,6 +470,7 @@
   }
 
   @media (max-width: 767px) {
+    .hero-bg__wash { filter: blur(10px); }
     .hero-bg__orb {
       top: 34%;
       width: 118vw;
@@ -483,6 +493,8 @@
     .hero-bg__svg {
       opacity: .62;
     }
+
+    .hero-bg__grain { display: none; }
 
     .hero-bg__marks,
     .hero-bg__doodle--orbit,
