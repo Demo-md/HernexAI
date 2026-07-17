@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hernex Brand Guardian"
+  short_description: "Protect HernexAI brand and factual integrity"
+  default_prompt: "Use $hernex-brand-guardian to review brand integrity."

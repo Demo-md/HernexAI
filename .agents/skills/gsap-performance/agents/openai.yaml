@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gsap Performance"
+  short_description: "Optimize GSAP and scroll animation performance"
+  default_prompt: "Use $gsap-performance to optimize this animation system."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Motion Accessibility"
+  short_description: "Make animation accessible and non-blocking"
+  default_prompt: "Use $motion-accessibility to audit this motion behavior."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Premium Frontend"
+  short_description: "Create bespoke art-directed frontend experiences"
+  default_prompt: "Use $premium-frontend to design this public-facing experience."

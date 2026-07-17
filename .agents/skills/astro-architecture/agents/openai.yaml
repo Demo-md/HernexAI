@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astro Architecture"
+  short_description: "Protect the existing Astro architecture"
+  default_prompt: "Use $astro-architecture to plan this Astro implementation."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spline Threejs Integration"
+  short_description: "Evaluate optional performance-conscious 3D"
+  default_prompt: "Use $spline-threejs-integration to evaluate this 3D request."

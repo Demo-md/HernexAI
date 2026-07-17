@@ -1,0 +1,4 @@
+interface:
+  display_name: "Anti Generic UI"
+  short_description: "Prevent generic AI and card-heavy UI patterns"
+  default_prompt: "Use $anti-generic-ui to audit this interface for generic patterns."

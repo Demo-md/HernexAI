@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tailwind V4 Design System"
+  short_description: "Enforce a controlled Tailwind v4 design system"
+  default_prompt: "Use $tailwind-v4-design-system to define design tokens."

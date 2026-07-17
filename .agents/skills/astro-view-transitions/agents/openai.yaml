@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astro View Transitions"
+  short_description: "Implement safe Astro route transitions"
+  default_prompt: "Use $astro-view-transitions to plan route transitions."

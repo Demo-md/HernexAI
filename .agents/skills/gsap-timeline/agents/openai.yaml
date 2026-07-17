@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gsap Timeline"
+  short_description: "Coordinate purposeful GSAP animation sequences"
+  default_prompt: "Use $gsap-timeline to plan this page motion."

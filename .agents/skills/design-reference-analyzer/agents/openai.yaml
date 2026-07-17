@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Reference Analyzer"
+  short_description: "Analyze reference sites before frontend implementation"
+  default_prompt: "Use $design-reference-analyzer to analyze this reference before implementation."

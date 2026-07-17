@@ -1,0 +1,4 @@
+interface:
+  display_name: "Playwright Interactive"
+  short_description: "Run repeatable Playwright interaction tests"
+  default_prompt: "Use $playwright-interactive to test these interactions."

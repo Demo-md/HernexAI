@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Browser Verify"
+  short_description: "Verify routes and interactions in a real browser"
+  default_prompt: "Use $agent-browser-verify to verify this website in a real browser."

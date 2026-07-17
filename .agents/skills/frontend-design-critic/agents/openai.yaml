@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Design Critic"
+  short_description: "Review frontend quality like a design director"
+  default_prompt: "Use $frontend-design-critic to critique this frontend."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual Regression Qa"
+  short_description: "Compare responsive screenshots for visual regressions"
+  default_prompt: "Use $visual-regression-qa to capture responsive evidence."
