@@ -1,0 +1,53 @@
+---
+import HNBot3D from "./HNBot3D.astro";
+---
+
+<aside class="chatbot" data-chatbot data-bot-state="loading" aria-label="HerNex Bot assistant">
+  <button class="chatbot__launcher" type="button" data-chat-launcher aria-expanded="false" aria-controls="chat-panel" aria-label="Open HN Bot assistant">
+    <HNBot3D />
+    <span class="chatbot__label">Ask HerNex Bot</span>
+    <span class="chatbot__signal" aria-hidden="true"></span>
+  </button>
+
+  <section class="chat-panel" id="chat-panel" data-chat-panel role="dialog" aria-modal="false" aria-labelledby="chat-title" hidden>
+    <header class="chat-panel__header">
+      <div class="chat-panel__identity"><span class="chat-panel__avatar"><HNBot3D /></span><div><p id="chat-title">HerNex Bot</p><span data-chat-presence>Ready to help</span></div></div>
+      <div class="chat-panel__controls">
+        <button class="chat-panel__reset" type="button" data-chat-reset-position>Reset bot position</button>
+        <button class="icon-button" type="button" data-chat-minimise aria-label="Minimise chat">−</button>
+        <button class="icon-button" type="button" data-chat-close aria-label="Close chat">×</button>
+      </div>
+    </header>
+    <div class="chat-panel__body" data-chat-body>
+      <div class="chat-panel__messages" data-chat-messages aria-live="polite" aria-relevant="additions text">
+        <p class="chat-message chat-message--bot">Hello. I can help you explore brand strategy, content, campaigns, websites, software, AI agents, or practical automation. What would you like to improve?</p>
+      </div>
+      <div class="chat-panel__quick-actions" data-chat-starters aria-label="Suggested questions">
+        <button type="button" data-chat-quick="I want to improve search visibility.">Search visibility</button>
+        <button type="button" data-chat-quick="I need help building a personal brand.">Personal brand</button>
+        <button type="button" data-chat-quick="I want to improve campaign performance.">Campaigns</button>
+        <button type="button" data-chat-quick="I want to explore marketing automation.">Automation</button>
+        <button type="button" data-chat-quick="I want to explore AI agent development.">AI agents</button>
+        <button type="button" data-chat-quick="I need custom software development for my business.">Software development</button>
+        <button type="button" data-chat-quick="I want to automate a business workflow.">Business automation</button>
+        <button type="button" data-chat-quick="I need a website or web application.">Web development</button>
+      </div>
+    </div>
+    <form class="chat-panel__form" data-chat-form>
+      <label class="sr-only" for="chat-input">Write a message to HerNex Bot</label>
+      <textarea id="chat-input" name="message" rows="1" maxlength="500" placeholder="Write your question…" required></textarea>
+      <button type="submit" class="chat-send" aria-label="Send message"><span aria-hidden="true">↑</span></button>
+    </form>
+    <p class="chat-panel__status" data-chat-status role="status" aria-live="polite"></p>
+  </section>
+  <section class="service-bot-bubble" data-service-bot-bubble aria-live="polite" hidden>
+    <button class="service-bot-bubble__close" type="button" data-service-bot-dismiss aria-label="Dismiss HerNex Bot service note">×</button>
+    <p class="service-bot-bubble__eyebrow">HerNex Bot noticed a pressure point</p>
+    <strong data-service-bot-title></strong>
+    <p data-service-bot-message></p>
+    <div class="service-bot-bubble__actions">
+      <button type="button" data-service-bot-more>Tell me more</button>
+      <a data-service-bot-whatsapp target="_blank" rel="noreferrer">Discuss on WhatsApp</a>
+    </div>
+  </section>
+</aside>

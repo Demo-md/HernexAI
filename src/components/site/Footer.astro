@@ -1,0 +1,26 @@
+---
+import { contact } from "../../data/site";
+import ChannelOrbit from "../insights/ChannelOrbit.astro";
+---
+
+<footer class="site-footer" id="site-footer">
+  <div class="shell site-footer__top">
+    <div class="site-footer__showcase">
+      <div class="site-footer__cta">
+        <p class="utility-label">The next clear move</p>
+        <p class="site-footer__statement">Bring the work into one <em>connected</em> direction.</p>
+        <a class="button button--gold" href="/contact">Start the conversation <span aria-hidden="true">↗</span></a>
+      </div>
+      <ChannelOrbit variant="footer" />
+    </div>
+    <nav class="site-footer__directory" aria-label="Footer navigation">
+      <div><p>Explore</p><a href="/">Home</a><a href="/about">About HerNexAI</a><a href="/capabilities">Capabilities</a><a href="/insights">Blog</a></div>
+      <div><p>Work with us</p><a href="/services">Services</a><a href="/services/marketing">Marketing</a><a href="/services/technology">Technology</a><a href="/contact">Start a conversation</a></div>
+      <div><p>Connect</p><a class="footer-whatsapp" href={contact.whatsapp} target="_blank" rel="noreferrer">Chat on WhatsApp <span aria-hidden="true">↗</span></a><a href={`mailto:${contact.email}`}>{contact.email}</a></div>
+    </nav>
+  </div>
+  <div class="shell site-footer__base">
+    <a class="site-footer__logo" href="/" aria-label="Back to HerNexAI home"><img class="brand-logo--official" src="/hernex-logo-official.svg" alt="HerNexAI Marketing and Branding" /></a>
+    <p class="insights-credit" data-insights-credit><span>Developed &amp; Powered by</span> <a href="https://www.insightsnode.com" target="_blank" rel="noreferrer" aria-label="Insightsnode website"><strong aria-label="Insightsnode">{[..."Insightsnode"].map((letter) => <i aria-hidden="true">{letter}</i>)}</strong></a></p>
+  </div>
+</footer>

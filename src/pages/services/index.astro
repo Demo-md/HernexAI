@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/site/PageIntro.astro";
+---
+
+<BaseLayout title="Services | HerNexAI" description="Explore HerNexAI marketing and growth technology services.">
+  <PageIntro index="01 / Services" eyebrow="A connected service system" title="Start with the pressure point. Connect the rest." description="Marketing and technology work best when each next move supports the same business direction." />
+  <section class="services-page section" aria-labelledby="services-index-title">
+    <div class="shell">
+      <div class="services-page__heading" data-reveal><p class="section-index">The index</p><h2 id="services-index-title">One connected direction. Two specialist <em>disciplines.</em></h2></div>
+      <div class="services-page__list services-page__hubs" data-reveal>
+        <a class="services-page__item" href="/services/marketing"><span>01</span><div><h3>Marketing</h3><p>Brand, content, campaigns, visibility and conversion.</p></div><p>Choose the pressure point that needs clearer attention, then connect only the work that supports it.</p><i aria-hidden="true">↗</i></a>
+        <a class="services-page__item" href="/services/technology"><span>02</span><div><h3>Technology</h3><p>Products, platforms, software, AI, automation and infrastructure.</p></div><p>Explore the systems that make customer experiences and operations easier to sustain.</p><i aria-hidden="true">↗</i></a>
+      </div>
+    </div>
+  </section>
+  <section class="service-connection section section--warm"><div class="shell service-connection__grid" data-reveal><p class="section-index">How they connect</p><h2>Strategy holds the system together. Creative work gives it a reason to be noticed.</h2><p>Services can stand alone when that is the useful first move. They can also connect when a message, campaign, website, product, and follow up need the same direction.</p><a class="button button--primary" href="/contact">Discuss a practical scope <span aria-hidden="true">↗</span></a></div></section>
+</BaseLayout>

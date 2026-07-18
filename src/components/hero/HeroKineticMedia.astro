@@ -1,0 +1,71 @@
+---
+const media = [
+  {
+    id: "brand",
+    label: "Brand direction",
+    eyebrow: "Brand system",
+    title: "Make the signal recognisable.",
+    detail: "Positioning / 01",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=84",
+  },
+  {
+    id: "social",
+    label: "Campaign creative",
+    eyebrow: "Campaign creative",
+    title: "Give attention a next move.",
+    detail: "Campaign / 02",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=84",
+  },
+  {
+    id: "search",
+    label: "Search visibility",
+    eyebrow: "Search visibility",
+    title: "Be useful at the right moment.",
+    detail: "Search / 03",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=900&q=84",
+  },
+  {
+    id: "mobile",
+    label: "Mobile journey",
+    eyebrow: "Mobile journey",
+    title: "Keep every step in motion.",
+    detail: "Experience / 04",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=84",
+  },
+  {
+    id: "workflow",
+    label: "Follow-up workflow",
+    eyebrow: "AI workflow",
+    title: "Turn momentum into follow-through.",
+    detail: "Workflow / 05",
+    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=84",
+  },
+];
+---
+
+<div class="kinetic-campaign-stream" data-kinetic-media aria-hidden="true">
+  <div class="kinetic-campaign-stream__accent kinetic-campaign-stream__accent--one"></div>
+  <div class="kinetic-campaign-stream__accent kinetic-campaign-stream__accent--two"></div>
+  {media.map((item, index) => (
+    <figure class="campaign-media" data-kinetic-media-item={item.id} data-campaign-card={index + 1}>
+      <div class="campaign-media__chrome"><span></span></div>
+      <div class="campaign-media__image">
+        <img src={item.image} alt="" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
+        <span class="campaign-media__image-wash"></span>
+      </div>
+      <div class="campaign-media__surface">
+        <p>{item.eyebrow}</p>
+        <strong>{item.title}</strong>
+        <span>{item.detail}</span>
+      </div>
+    </figure>
+  ))}
+</div>
+
+<figure class="hero-media-static" data-hero-media-static aria-hidden="true">
+  <div class="hero-media-static__canvas">
+    <span>Campaign direction</span>
+    <strong>Make the signal<br />recognisable.</strong>
+    <i></i>
+  </div>
+</figure>

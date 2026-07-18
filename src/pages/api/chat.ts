@@ -34,23 +34,23 @@ const fallbackReply = (intent: string, fields: ReturnType<typeof extractLeadFiel
   if (intent === "spam_irrelevant") return "I can help with HerNexAI services, marketing questions, enquiries, and support requests.";
   if (intent === "complaint" || intent === "support_request") {
     if (!fields.supportCategory) return `Sorry about that. Is this related to ${supportCategories.join(", ")}?`;
-    if (!fields.issueSummary) return "Please share the issue in 1–2 lines so I can create a support request for the team.";
+    if (!fields.issueSummary) return "Please share the issue in one or two lines so I can create a support request for the team.";
     if (!fields.name) return "What name should I add to the support request?";
     if (!fields.phone) return "Please share your WhatsApp number so the team can follow up. By sharing it, you allow HerNexAI to contact you about this request.";
     return "I’ve noted this support request. The HerNexAI team can follow up on WhatsApp.";
   }
   if (["service_enquiry", "pricing_enquiry", "website_enquiry", "social_media_enquiry"].includes(intent)) {
-    if (!fields.serviceInterest) return "Let’s find the strongest growth lever first. Are you looking for Growth Technology Services—websites, apps, software, or automation—or branding, social media, ads, SEO, or funnels?";
+    if (!fields.serviceInterest) return "Let’s find the strongest growth lever first. Are you looking for Growth Technology Services such as websites, apps, software, or automation, or branding, social media, ads, SEO, or funnels?";
     if (!fields.businessType) return /website|software|mobile app|saas|api|automation|cloud|crm|erp|devops|database|hosting|infrastructure/i.test(fields.serviceInterest) ? "Growth Technology Services may be the right fit if disconnected tools or manual work are slowing you down. What type of business is this for?" : "Great. What type of business is this for?";
     if (!fields.requirement) return "Briefly, what outcome or requirement are you looking for?";
     if (!/continue.*whatsapp|contact you on whatsapp|open a whatsapp chat|whatsapp chat/i.test(assistantText)) return "This is worth mapping with the dedicated HerNexAI team so you get the right structure instead of a generic package. Start a WhatsApp chat and we’ll help clarify the best next step for your business.";
-    if (fields.whatsappDeclined) return "No problem—I won’t collect contact details. You can continue asking questions here.";
+    if (fields.whatsappDeclined) return "No problem. I will not collect contact details. You can continue asking questions here.";
     if (!fields.whatsappConsent) return "Start a WhatsApp chat with our dedicated team. We’ll help you choose the right service structure for your business.";
     if (fields.whatsappConsent && !fields.name) return "What name should the team use?";
     if (fields.name && !fields.phone) return "Please share your WhatsApp number. By sharing it, you allow HerNexAI to follow up on your enquiry.";
     if (fields.phone && !fields.budgetRange) return "What budget range should the team plan around? You can also say flexible or not sure.";
     if (fields.budgetRange && !fields.urgency) return "How soon would you like to start?";
-    return "Thanks—I have everything needed to save your enquiry.";
+    return "Thanks. I have everything needed to save your enquiry.";
   }
   if (intent === "job_career_query") return `Current vacancies are not listed. You can email a concise introduction and portfolio to ${hernexKnowledge.contact.email}.`;
   return "I can help with HerNexAI services, marketing questions, pricing enquiries, and support. What would you like to improve?";

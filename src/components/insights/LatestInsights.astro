@@ -1,0 +1,44 @@
+---
+import type { BlogPost } from "../../data/blog";
+
+interface Props {
+  posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+const [featured, ...secondary] = posts;
+const formatDate = (value: string) => new Date(value).toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+---
+
+<section class="latest-insights section" aria-labelledby="latest-insights-title">
+  <div class="shell">
+    <header class="latest-insights__heading" data-reveal>
+      <p class="section-index">05 / Blog</p>
+      <h2 id="latest-insights-title">Ideas for clearer brands, stronger systems and smarter growth.</h2>
+      <a class="text-link text-link--dark" href="/insights">View all Blog posts <span aria-hidden="true">↗</span></a>
+    </header>
+    {featured && (
+      <div class="latest-insights__layout">
+        <article class="latest-insights__feature" data-reveal>
+          <a href={`/insights/${featured.slug}`} class="insight-cover"><img src={featured.coverImage} alt={featured.coverImageAlt} loading="lazy" /></a>
+          <div>
+            <p class="utility-label">{featured.category} · {featured.estimatedReadingTime}{featured.isDevelopmentFixture ? " · Development preview" : ""}</p>
+            <h3><a href={`/insights/${featured.slug}`}>{featured.title}</a></h3>
+            <p>{featured.excerpt}</p>
+            <a class="text-link text-link--dark" href={`/insights/${featured.slug}`}>Read article <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+        <div class="latest-insights__rows">
+          {secondary.slice(0, 2).map((post) => (
+            <article class="latest-insights__row" data-reveal>
+              <p class="utility-label">{post.category} · {formatDate(post.publishedAt)}</p>
+              <h3><a href={`/insights/${post.slug}`}>{post.title}</a></h3>
+              <p>{post.excerpt}</p>
+              <a href={`/insights/${post.slug}`} aria-label={`Read ${post.title}`}><span aria-hidden="true">↗</span></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</section>

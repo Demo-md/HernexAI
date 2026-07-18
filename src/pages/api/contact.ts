@@ -11,9 +11,11 @@ export const POST: APIRoute = async ({ request }) => {
   const company = clean(body.company);
   const service = clean(body.service);
   const message = clean(body.message);
+  const budgetRange = clean(body.budgetRange);
+  const customBudget = clean(body.customBudget);
 
-  if (!name || !email || !message) {
-    return Response.json({ ok: false, error: "Please add your name, email, and message." }, { status: 400 });
+  if (!name || !email || !phone || !message || !budgetRange || (budgetRange === "Custom budget" && !customBudget)) {
+    return Response.json({ ok: false, error: "Please add your name, email, phone number, message, and budget details." }, { status: 400 });
   }
 
   const result = await appendToSheet("lead", {
@@ -23,11 +25,11 @@ export const POST: APIRoute = async ({ request }) => {
     email,
     businessType: company,
     requirement: `${service ? `${service}: ` : ""}${message}`,
-    budgetRange: "",
+    budgetRange: customBudget ? `${budgetRange}: ${customBudget}` : budgetRange,
     urgency: "",
     intent: "strategy_form",
-    leadScore: phone ? 50 : 20,
-    leadStatus: phone ? "Warm Lead" : "Cold Lead",
+    leadScore: 50,
+    leadStatus: "Warm Lead",
     conversationSummary: message,
     source: "Homepage Strategy Form"
   });

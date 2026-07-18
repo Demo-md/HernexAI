@@ -1,0 +1,53 @@
+---
+import type { ServiceCatalogueItem } from "../../data/site";
+
+interface Props {
+  category: "marketing" | "technology";
+  index: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  items: ServiceCatalogueItem[];
+}
+
+const { category, index, eyebrow, title, description, items } = Astro.props;
+---
+
+<section class="service-hub" data-service-preview data-service-category={category} aria-labelledby={`${category}-hub-title`}>
+  <div class="shell">
+    <header class="service-hub__intro service-hub__intro--centered">
+      <p class="section-index">{index}</p>
+      <p class="eyebrow"><span></span>{eyebrow}</p>
+      <h1 id={`${category}-hub-title`}>{title}</h1>
+      <p>{description}</p>
+    </header>
+    <div class="service-hub__layout">
+      <ol class="service-hub__index" aria-label={`${category} service index`}>
+        {items.map((item, itemIndex) => (
+          <li>
+            <button type="button" data-service-preview-trigger data-service-slug={item.slug} aria-controls={`${category}-service-preview`} aria-current={itemIndex === 0 ? "true" : undefined}>
+              <span>{String(itemIndex + 1).padStart(2, "0")}</span><strong>{item.title}</strong><i aria-hidden="true">↗</i>
+            </button>
+          </li>
+        ))}
+      </ol>
+      <aside class="service-hub__feature" id={`${category}-service-preview`} aria-live="polite">
+        {items.map((item, itemIndex) => (
+          <article class="service-preview" data-service-preview-panel={item.slug} hidden={itemIndex !== 0}>
+            <div class="service-preview__visual" aria-hidden="true"><span>{String(itemIndex + 1).padStart(2, "0")}</span><i></i><i></i><i></i></div>
+            <div class="service-preview__copy">
+              <p class="utility-label">{item.kicker}</p>
+              <h2>{item.title}</h2>
+              <p>{item.summary}</p>
+              <ul aria-label={`${item.title} deliverables`}>{item.deliverables.slice(0, 4).map((item) => <li>{item}</li>)}</ul>
+              <div class="service-preview__actions">
+                {category === "marketing" && <a href={`/services/${item.slug}`}>View service detail <span aria-hidden="true">↗</span></a>}
+                <button type="button" data-service-ask data-service-slug={item.slug}>Ask HerNex Bot <span aria-hidden="true">↗</span></button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </aside>
+    </div>
+  </div>
+</section>

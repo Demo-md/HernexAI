@@ -1,0 +1,50 @@
+---
+import GreetingSequence from "./GreetingSequence";
+import { getIntroGreetings } from "../../data/intro";
+---
+
+<section class="cinematic-intro" data-cinematic-intro aria-label="HerNexAI greeting">
+  <canvas class="cinematic-intro__canvas" data-intro-canvas aria-hidden="true"></canvas>
+  <img class="cinematic-intro__logo brand-logo--official" src="/hernex-logo-official.svg" alt="" aria-hidden="true" />
+  <div class="cinematic-intro__content">
+    <div aria-hidden="true"><GreetingSequence greetings={getIntroGreetings()} client:load /></div>
+    <span class="cinematic-intro__signal" data-intro-signal aria-hidden="true"></span>
+    <button class="cinematic-intro__skip" type="button" data-intro-skip>Skip intro <span aria-hidden="true">↗</span></button>
+  </div>
+</section>
+
+<script is:inline>
+  try {
+    const root = document.documentElement;
+    const intro = document.querySelector("[data-cinematic-intro]");
+    const skip = document.querySelector("[data-intro-skip]");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const seen = window.sessionStorage.getItem("hernex-intro-seen") === "true";
+
+    // This runs before the async controller so the skip action never waits on a module load.
+    skip?.addEventListener("click", () => {
+      if (root.dataset.introState !== "active") return;
+
+      root.dataset.introState = "complete";
+      root.dataset.introReleased = "true";
+      window.sessionStorage.setItem("hernex-intro-seen", "true");
+      intro?.setAttribute("hidden", "");
+      window.dispatchEvent(new CustomEvent("hernex:intro-complete", { detail: { reason: "skipped-by-user" } }));
+    });
+
+    if (!seen) {
+      root.dataset.introState = "active";
+      root.dataset.introMode = reduced ? "reduced" : "full";
+      window.sessionStorage.setItem("hernex-intro-seen", "true");
+      window.setTimeout(() => {
+        if (root.dataset.introState !== "active") return;
+        root.dataset.introState = "complete";
+        window.dispatchEvent(new CustomEvent("hernex:intro-complete", { detail: { reason: "safety-timeout" } }));
+      }, 9000);
+    } else {
+      root.dataset.introState = "skipped";
+    }
+  } catch {
+    document.documentElement.dataset.introState = "skipped";
+  }
+</script>

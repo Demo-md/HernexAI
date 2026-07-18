@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page not found | HerNexAI" description="The page you were looking for could not be found.">
+  <section class="not-found section--navy" aria-labelledby="not-found-title">
+    <div class="shell not-found__content">
+      <p class="utility-label">404 / No clear route</p>
+      <h1 id="not-found-title">This page is not part of the <em>system</em>.</h1>
+      <p>Try returning to the homepage, explore the services, or start a conversation about what you need.</p>
+      <div class="not-found__actions">
+        <a class="button button--gold" href="/">Back home <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="/services">Explore services <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

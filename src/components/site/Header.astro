@@ -1,0 +1,68 @@
+---
+import { contact } from "../../data/site";
+
+const navigation = [
+  ["Home", "/"],
+  ["About", "/about"],
+  ["Capabilities", "/capabilities"],
+  ["Contact", "/contact"],
+  ["Blog", "/insights"],
+] as const;
+const currentPath = Astro.url.pathname;
+const servicesActive = currentPath.startsWith("/services");
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-header__inner shell">
+    <a class="wordmark" href="/" data-astro-reload aria-label="HerNexAI home">
+      <img class="brand-logo--official" src="/hernex-logo-official.svg" alt="HerNexAI Marketing and Branding" />
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/" data-astro-reload aria-current={currentPath === "/" ? "page" : undefined}>Home</a>
+      <div class="services-menu" data-services-menu>
+        <button class:list={["services-menu__trigger", { "is-active": servicesActive }]} type="button" data-services-trigger aria-expanded="false" aria-controls="services-menu-panel">
+          Services <span aria-hidden="true">+</span>
+        </button>
+        <div class="services-menu__panel" id="services-menu-panel" data-services-panel hidden>
+          <a class="services-menu__choice" href="/services/marketing" data-astro-reload aria-current={currentPath === "/services/marketing" ? "page" : undefined}><span>Marketing</span><strong>Brand, content, campaigns, visibility and conversion.</strong><i aria-hidden="true">↗</i></a>
+          <a class="services-menu__choice" href="/services/technology" data-astro-reload aria-current={currentPath === "/services/technology" ? "page" : undefined}><span>Technology</span><strong>Products, platforms, software, AI, automation and infrastructure.</strong><i aria-hidden="true">↗</i></a>
+        </div>
+      </div>
+      {navigation.slice(1).map(([label, href]) => <a href={href} data-astro-reload aria-current={currentPath === href ? "page" : undefined}>{label}</a>)}
+    </nav>
+
+    <div class="header-actions">
+      <a class="header-whatsapp" href={contact.whatsapp} target="_blank" rel="noreferrer" aria-label="Chat with HerNexAI on WhatsApp">
+        <svg aria-hidden="true" viewBox="0 0 32 32"><path d="M27.2 4.7A15.2 15.2 0 0 0 3.3 23l-1.5 7.2 7.4-1.5A15.2 15.2 0 1 0 27.2 4.7Zm-11.1 22a12.5 12.5 0 0 1-6.4-1.8l-.5-.3-4.4.9.9-4.3-.3-.5A12.5 12.5 0 1 1 16.1 26.7Zm6.8-9.4c-.4-.2-2.3-1.1-2.7-1.3-.4-.1-.7-.2-.9.2-.3.4-1 1.3-1.2 1.6-.2.3-.4.3-.8.1-2-1-3.3-1.8-4.6-4.1-.4-.7.4-.7 1.1-2 .1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1 .5-.4.4-1.4 1.4-1.4 3.5s1.4 4 1.6 4.3c.2.3 2.7 4.1 6.5 5.8 2.4 1 3.3 1.1 4.5.9.7-.1 2.3-.9 2.6-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5Z" fill="currentColor"/></svg>
+      </a>
+      <a class="button button--primary header-cta" href="/contact" data-astro-reload>Book a Free Strategy Call</a>
+    </div>
+    <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+      <span class="sr-only">Open navigation</span>
+      <span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+    <div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Mobile navigation" tabindex="-1">
+      <div class="mobile-menu__top">
+        <span class="utility-label">Navigate</span>
+        <button class="icon-button" type="button" data-menu-close aria-label="Close navigation">×</button>
+      </div>
+      <nav aria-label="Mobile primary navigation">
+        <a href="/" data-astro-reload aria-current={currentPath === "/" ? "page" : undefined}><span>01</span>Home</a>
+        <button class="mobile-menu__services-trigger" type="button" data-mobile-services-trigger aria-expanded="false" aria-controls="mobile-services-panel"><span>02</span>Services <i aria-hidden="true">+</i></button>
+        <div class="mobile-menu__services-panel" id="mobile-services-panel" data-mobile-services-panel hidden>
+          <a href="/services/marketing" data-astro-reload aria-current={currentPath === "/services/marketing" ? "page" : undefined}>Marketing</a>
+          <a href="/services/technology" data-astro-reload aria-current={currentPath === "/services/technology" ? "page" : undefined}>Technology</a>
+        </div>
+        {navigation.slice(1).map(([label, href], index) => <a href={href} data-astro-reload aria-current={currentPath === href ? "page" : undefined}><span>0{index + 3}</span>{label}</a>)}
+      </nav>
+      <div class="mobile-menu__actions">
+        <a class="button button--primary mobile-menu__cta" href="/contact" data-astro-reload>Book a Free Strategy Call</a>
+        <a class="mobile-menu__whatsapp" href={contact.whatsapp} target="_blank" rel="noreferrer">Chat on WhatsApp <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </div>
+</header>

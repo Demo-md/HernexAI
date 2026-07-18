@@ -22,7 +22,10 @@
 
 ## Current Frontend State
 
-The public frontend pages, layouts, components, styles, and motion scripts are currently absent from this checkout. The project is therefore an Astro server/API shell rather than a complete public website. Do not assume a homepage, `src/layouts`, `src/components`, `src/styles`, or `src/scripts` file exists; inspect before changing anything.
+- Public pages use `src/layouts/BaseLayout.astro`, `src/components/`, `src/styles/global.css`, and lifecycle-aware scripts under `src/scripts/`.
+- The homepage keeps its existing kinetic hero, Strategy journey, service index, WhatsApp paths, contact form, and CSS HN Bot.
+- Public Blog routes are `/insights` and `/insights/[slug]`; content is shaped in `src/data/blog.ts` and `src/lib/blog.ts` for eventual Sheets/Supabase-backed administration in Phase 2D.
+- Verified testimonials live in `src/data/testimonials.ts`. Original Google review screenshots have not yet been added to `public/testimonials/source/`.
 
 ## Existing Conventions
 
@@ -35,7 +38,7 @@ The public frontend pages, layouts, components, styles, and motion scripts are c
 
 ## Constraints and Risks
 
-- The last cleanup intentionally removed the visual frontend, so any implementation task starts from architecture discovery rather than incremental component editing.
+- The frontend is currently an incremental Astro implementation. Preserve approved routes, component boundaries, visual language, and client-side lifecycle setup rather than replacing them.
 - `src/data/site.ts` is shared by backend modules and must not be deleted as if it were presentation-only.
 - Existing API behavior, environment variables, Google Sheets integration, and auth behavior are preserved functionality.
 - No verified brand asset inventory is currently present in `public/`; missing assets and facts must be marked rather than invented.

@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleBody from "../../components/insights/ArticleBody.astro";
+import { parseArticle } from "../../lib/article-content";
+import { getPublicPosts } from "../../lib/blog";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getPublicPosts();
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post, posts } }));
+}
+
+const { post, posts } = Astro.props;
+const headings = parseArticle(post.content).filter((block) => block.type === "heading");
+const currentIndex = posts.findIndex((item) => item.slug === post.slug);
+const related = posts.filter((item) => item.slug !== post.slug && (item.category === post.category || item.tags.some((tag: string) => post.tags.includes(tag)))).slice(0, 2);
+const previous = currentIndex > 0 ? posts[currentIndex - 1] : undefined;
+const next = currentIndex >= 0 ? posts[currentIndex + 1] : undefined;
+const siteUrl = import.meta.env.PUBLIC_SITE_URL;
+const articleUrl = post.canonicalUrl || new URL(`/insights/${post.slug}`, siteUrl || Astro.url.origin).toString();
+const jsonLd = !post.noindex ? [
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
+    mainEntityOfPage: articleUrl,
+    image: post.ogImage ? new URL(post.ogImage, siteUrl || Astro.url.origin).toString() : undefined,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl || Astro.url.origin },
+      { "@type": "ListItem", position: 2, name: "Blog", item: siteUrl ? new URL("/insights", siteUrl).toString() : `${Astro.url.origin}/insights` },
+      { "@type": "ListItem", position: 3, name: post.title, item: articleUrl },
+    ],
+  },
+] : undefined;
+const formatDate = (value: string) => new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<BaseLayout title={post.metaTitle} description={post.metaDescription} image={post.ogImage || post.coverImage} type="article" publishedAt={post.publishedAt} updatedAt={post.updatedAt} noindex={post.noindex} jsonLd={jsonLd}>
+  <article class="article section--navy" aria-labelledby="article-title">
+    <div class="shell article__head">
+      <nav class="article-breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/insights">Blog</a><span aria-hidden="true">/</span><span aria-current="page">{post.title}</span></nav>
+      <a class="back-link" href="/insights">← All Blog posts</a>
+      <p class="eyebrow"><span></span>{post.category}{post.isDevelopmentFixture ? " · Development preview" : ""}</p>
+      <h1 id="article-title">{post.title}</h1>
+      <p>{post.excerpt}</p>
+      <p class="article__meta">{post.authorName} · {formatDate(post.publishedAt)} · {post.estimatedReadingTime}</p>
+    </div>
+  </article>
+  <section class="section article__body">
+    <div class="shell article__layout">
+      {headings.length > 2 && <aside class="article-toc" aria-label="Table of contents"><p class="utility-label">On this page</p><ol>{headings.map((heading) => <li><a href={`#${heading.id}`}>{heading.text}</a></li>)}</ol></aside>}
+      <div class="article__prose">
+        <figure class="article-cover"><img src={post.coverImage} alt={post.coverImageAlt} /></figure>
+        <div class="article-share" aria-label="Share this article"><span>Share</span><button type="button" data-share-copy data-share-url={articleUrl}>Copy link</button></div>
+        <ArticleBody content={post.content} />
+        <aside class="article__next" aria-label="Continue the conversation">
+          <p class="utility-label">A clear next move</p>
+          <p>Bring the question into a working conversation.</p>
+          <a class="button button--primary" href="/contact">Book a Free Strategy Call <span aria-hidden="true">↗</span></a>
+        </aside>
+      </div>
+    </div>
+  </section>
+  {(related.length || previous || next) && <section class="article-related section section--warm"><div class="shell"><p class="utility-label">Keep reading</p>{related.length ? <div class="article-related__items">{related.map((item) => <a href={`/insights/${item.slug}`}><span>{item.category}</span><strong>{item.title}</strong><i aria-hidden="true">↗</i></a>)}</div> : null}<nav class="article-pagination" aria-label="Article navigation">{previous ? <a href={`/insights/${previous.slug}`}>← {previous.title}</a> : <span />}{next ? <a href={`/insights/${next.slug}`}>{next.title} →</a> : <span />}</nav></div></section>}
+</BaseLayout>

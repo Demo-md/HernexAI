@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title">
+  <title id="title">Brief to action diagram</title><rect width="1200" height="720" fill="#F7F4ED"/>
+  <rect x="110" y="178" width="290" height="340" fill="none" stroke="#071B55" stroke-width="4"/><rect x="444" y="238" width="290" height="340" fill="#F5A623"/><rect x="778" y="118" width="290" height="340" fill="#071B55"/>
+  <g font-family="Arial, sans-serif" font-weight="800"><text x="145" y="260" fill="#071B55" font-size="34">BRIEF</text><text x="480" y="320" fill="#071B55" font-size="34">DECISION</text><text x="814" y="200" fill="#F7F4ED" font-size="34">NEXT ACTION</text><text x="109" y="92" fill="#071B55" font-size="76">DIRECTION, NOT NOISE.</text></g><path d="M360 380h115m190 0h115" stroke="#071B55" stroke-width="6"/><path d="M757 358l24 22-24 22" fill="none" stroke="#071B55" stroke-width="6"/>
+</svg>

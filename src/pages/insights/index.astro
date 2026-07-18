@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/site/PageIntro.astro";
+import ChannelOrbit from "../../components/insights/ChannelOrbit.astro";
+import { getPublicPosts } from "../../lib/blog";
+
+const posts = await getPublicPosts();
+const featured = posts.find((post) => post.featured) || posts[0];
+const latest = posts.filter((post) => post.id !== featured?.id);
+const categories = [...new Set(posts.map((post) => post.category))];
+const formatDate = (value: string) => new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+---
+
+<BaseLayout title="Blog | HerNexAI" description="Practical notes on clearer brands, connected marketing systems, and useful technology.">
+  <PageIntro eyebrow="Blog" title="Ideas for making the next move clearer." index="" withOrbit>
+    <ChannelOrbit slot="visual" />
+  </PageIntro>
+  <section class="section section--light insights-list" aria-labelledby="insights-list-title" data-insights>
+    <div class="shell">
+      <header class="insights-list__heading">
+        <p class="utility-label" id="insights-list-title">Latest perspective</p>
+        <div class="insights-list__filters" aria-label="Filter Blog posts">
+          <label class="sr-only" for="insights-search">Search Blog posts</label>
+          <input id="insights-search" type="search" placeholder="Search the Blog" data-insights-search />
+          <div class="insights-list__category-buttons" role="group" aria-label="Filter by category">
+            <button type="button" data-insights-filter="all" aria-pressed="true">All</button>
+            {categories.map((category) => <button type="button" data-insights-filter={category} aria-pressed="false">{category}</button>)}
+          </div>
+        </div>
+      </header>
+      {featured ? (
+        <article class="insights-feature" data-insight-post data-category={featured.category.toLowerCase()} data-search={`${featured.title} ${featured.excerpt} ${featured.tags.join(" ")}`.toLowerCase()}>
+          <a class="insight-cover" href={`/insights/${featured.slug}`}><img src={featured.coverImage} alt={featured.coverImageAlt} /></a>
+          <div>
+            <p class="utility-label">Featured · {featured.category} · {featured.estimatedReadingTime}{featured.isDevelopmentFixture ? " · Development preview" : ""}</p>
+            <h2><a href={`/insights/${featured.slug}`}>{featured.title}</a></h2>
+            <p>{featured.excerpt}</p>
+            <a class="text-link text-link--dark" href={`/insights/${featured.slug}`}>Read article <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+      ) : null}
+      {latest.length ? (
+        <div class="insights-list__rows">
+          {latest.map((post, index) => (
+            <article class="insight-row" data-insight-post data-category={post.category.toLowerCase()} data-search={`${post.title} ${post.excerpt} ${post.tags.join(" ")}`.toLowerCase()}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <p class="utility-label">{post.category} · {formatDate(post.publishedAt)}{post.isDevelopmentFixture ? " · Development preview" : ""}</p>
+                <h2><a href={`/insights/${post.slug}`}>{post.title}</a></h2>
+              </div>
+              <p>{post.excerpt}</p>
+              <a class="text-link text-link--dark" href={`/insights/${post.slug}`}>Read article <span aria-hidden="true">↗</span></a>
+            </article>
+          ))}
+        </div>
+      ) : null}
+      <p class="empty-state" data-insights-empty hidden>No articles match this search yet. Try another phrase or <a href="/contact">start a conversation</a>.</p>
+      {!posts.length && <p class="empty-state">New perspectives are being prepared. For a specific question, <a href="/contact">start a conversation</a>.</p>}
+    </div>
+  </section>
+</BaseLayout>

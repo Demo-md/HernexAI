@@ -1,0 +1,49 @@
+---
+import { contact, services } from "../../data/site";
+---
+
+<section class="contact-section section" id="contact" aria-labelledby="contact-title">
+  <div class="shell contact-section__grid">
+    <div class="contact-section__intro" data-reveal>
+      <h2 id="contact-title">Tell us where the work feels <em>stuck.</em></h2>
+      <p>A useful first conversation starts with the business, the audience, and the decision that needs to become clearer.</p>
+      <a class="text-link text-link--dark contact-whatsapp-link" href={contact.whatsapp} target="_blank" rel="noreferrer"><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M27.2 4.7A15.2 15.2 0 0 0 3.3 23l-1.5 7.2 7.4-1.5A15.2 15.2 0 1 0 27.2 4.7Zm-11.1 22a12.5 12.5 0 0 1-6.4-1.8l-.5-.3-4.4.9.9-4.3-.3-.5A12.5 12.5 0 1 1 16.1 26.7Zm6.8-9.4c-.4-.2-2.3-1.1-2.7-1.3-.4-.1-.7-.2-.9.2-.3.4-1 1.3-1.2 1.6-.2.3-.4.3-.8.1-2-1-3.3-1.8-4.6-4.1-.4-.7.4-.7 1.1-2 .1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1 .5-.4.4-1.4 1.4-1.4 3.5s1.4 4 1.6 4.3c.2.3 2.7 4.1 6.5 5.8 2.4 1 3.3 1.1 4.5.9.7-.1 2.3-.9 2.6-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5Z" fill="currentColor"/></svg>Prefer WhatsApp? Start here <span aria-hidden="true">↗</span></a>
+    </div>
+    <form class="contact-form" data-contact-form novalidate>
+      <div class="contact-form__row">
+        <label>Your name<input name="name" autocomplete="name" required /></label>
+        <label>Email address<input name="email" type="email" autocomplete="email" required /></label>
+      </div>
+      <div class="contact-form__row">
+        <label>Business or team<input name="company" autocomplete="organization" /></label>
+        <label>What should we explore?
+          <select name="service">
+            <option value="">Choose a starting point</option>
+            {services.map((service) => <option value={service.slug}>{service.title}</option>)}
+          </select>
+        </label>
+      </div>
+      <label>What would you like to improve?<textarea name="message" rows="4" required></textarea></label>
+      <div class="contact-form__row contact-form__row--budget">
+        <label class="contact-form__phone">Phone or WhatsApp number<input name="phone" inputmode="tel" autocomplete="tel" required /></label>
+        <label>Budget range
+          <select name="budgetRange" required>
+            <option value="">Choose a range</option>
+            <option value="Under INR 25,000">Under INR 25,000</option>
+            <option value="INR 25,000 to 50,000">INR 25,000 to 50,000</option>
+            <option value="INR 50,000 to 1,00,000">INR 50,000 to 1,00,000</option>
+            <option value="INR 1,00,000 to 2,50,000">INR 1,00,000 to 2,50,000</option>
+            <option value="Above INR 2,50,000">Above INR 2,50,000</option>
+            <option value="Custom budget">Custom budget</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </label>
+      </div>
+      <label class="contact-form__budget-custom">Custom budget <span>Optional: share an amount or range</span><input name="customBudget" inputmode="decimal" placeholder="For example, INR 75,000" /></label>
+      <div class="contact-form__actions">
+        <button class="button button--primary" type="submit">Send your enquiry <span aria-hidden="true">↗</span></button>
+        <p data-contact-status role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>

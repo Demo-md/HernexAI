@@ -1,0 +1,28 @@
+---
+import HeroKineticMedia from "./HeroKineticMedia.astro";
+
+const strategyLetters = "strategy".split("");
+---
+
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <HeroKineticMedia />
+  <div class="shell hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow hero__eyebrow" data-hero-eyebrow><span></span>Human led growth systems<span></span></p>
+      <h1 id="hero-title" data-hero-title>
+        <span class="sr-only">Human strategy. Creative direction. AI enabled execution.</span>
+        <span class="hero__headline" aria-hidden="true">
+          <span class="hero__headline-line hero__headline-line--human"><span data-hero-human>Human</span> <span class="strategy-word" data-strategy-word data-strategy-source>{strategyLetters.map((letter) => <span class="strategy-word__letter" data-strategy-letter>{letter}</span>)}<span class="strategy-word__period">.</span><span class="strategy-word__sweep" data-strategy-sweep></span></span></span>
+          <span class="hero__headline-line" data-hero-line>Creative direction.</span>
+          <span class="hero__headline-line" data-hero-line>AI enabled execution.</span>
+        </span>
+      </h1>
+      <p class="hero__body" data-hero-body>One connected system for turning the right signals into clearer brands, stronger campaigns, and useful next actions.</p>
+      <div class="hero__actions" data-hero-actions>
+        <a class="button button--gold" href="/contact">Book a Free Strategy Call <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="#services">View Our Work <span aria-hidden="true">↓</span></a>
+      </div>
+      <p class="hero__cue" data-hero-cue><span></span>Trace the connected system</p>
+    </div>
+  </div>
+</section>

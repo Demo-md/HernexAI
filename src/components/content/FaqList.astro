@@ -1,0 +1,27 @@
+---
+const questions = [
+  ["What technology services can HerNexAI build?", "We can plan and deliver websites, web applications, mobile experiences, SaaS products, APIs, AI agents, workflow automation, CRM or ERP foundations, cloud setup, and ongoing technical support."],
+  ["How do you decide the right technology solution?", "We start with the workflow, user need, integration constraints, and the outcome the business needs to improve. That lets us recommend a staged solution instead of adding technology for its own sake."],
+  ["What does HerNexAI help with?", "HerNexAI brings together marketing strategy, brand direction, content, campaigns, websites, and practical automation. The first step is understanding what needs to become clearer or more connected."],
+  ["Can we start with one focused project?", "Yes. A focused service can be the right starting point when it is connected to a clear business need. The scope can then expand only when it earns that next step."],
+  ["How does AI fit into the work?", "AI can help organise, prepare, and improve parts of the workflow. Strategy, creative judgement, and the final direction remain human led."],
+  ["How do we begin?", "Share the business context and the point of friction. HerNexAI can then help identify the most useful first conversation or service direction."],
+];
+---
+
+<section class="faq section section--warm" aria-labelledby="faq-title">
+  <div class="shell faq__grid">
+    <div data-reveal>
+      <p class="section-index">07 / Questions worth asking</p>
+      <h2 id="faq-title">Clarity starts with a useful question.</h2>
+    </div>
+    <div class="faq__items" data-faq-list>
+      {questions.map(([question, answer], index) => (
+        <article class="faq__item">
+          <h3><button type="button" data-faq-button aria-expanded="false" aria-controls={`faq-answer-${index}`}><span>{question}</span><i aria-hidden="true">+</i></button></h3>
+          <div id={`faq-answer-${index}`} hidden><p>{answer}</p></div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

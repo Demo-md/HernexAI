@@ -1,0 +1,28 @@
+---
+const stages = [
+  ["01", "Find the signal", "Clarify the audience, offer, and decision the work needs to support."],
+  ["02", "Give it a point of view", "Turn insight into a message, identity, content direction, and campaign idea people can recognise."],
+  ["03", "Put the work in motion", "Connect the website, content, advertising, and follow up around the next practical action."],
+  ["04", "Make the system easier to run", "Use AI where it helps organise, prepare, and improve work without removing human judgement."],
+];
+---
+
+<section class="capability-sequence section section--navy" id="capabilities" data-strategy-section="system" aria-labelledby="capabilities-title">
+  <div class="shell">
+    <div class="section-heading section-heading--inverse">
+      <p class="section-index">02 / Connected system</p>
+      <h2 id="capabilities-title"><span data-strategy-target="system">Strategy</span> <span data-strategy-reveal>gives every signal<br />one direction.</span></h2>
+      <p data-strategy-reveal>Your brand, content, campaigns, website and follow up should not compete for attention. One strategy gives every expression a shared purpose.</p>
+    </div>
+    <ol class="capability-sequence__list">
+      {stages.map(([number, title, copy]) => (
+        <li class="capability-sequence__item" data-capability-step>
+          <span>{number}</span>
+          <h3>{title}</h3>
+          <p>{copy}</p>
+          <i aria-hidden="true"></i>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

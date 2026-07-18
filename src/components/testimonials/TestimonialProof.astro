@@ -1,0 +1,30 @@
+---
+import { testimonials } from "../../data/testimonials";
+---
+
+<div class="testimonial-proof" data-testimonial-proof aria-label="Verified client reviews">
+  <header class="testimonial-proof__heading" data-testimonial-heading>
+    <p class="utility-label">Verified Google Reviews</p>
+    <h3>Testimonials</h3>
+  </header>
+  <div class="testimonial-proof__rows">
+    {testimonials.map((testimonial) => (
+      <article class="testimonial-proof__row" data-testimonial-row>
+        <div class="testimonial-proof__identity">
+          <span class="testimonial-avatar" aria-hidden="true">{testimonial.reviewerInitials}</span>
+          <div>
+            <cite>{testimonial.reviewerName}</cite>
+            <p>{testimonial.businessName || testimonial.serviceType}</p>
+          </div>
+          <span class="testimonial-stars" role="img" aria-label={`${testimonial.rating} out of 5 stars`}><span aria-hidden="true">★★★★★</span></span>
+        </div>
+        <blockquote><p>{testimonial.quote}</p></blockquote>
+        <details>
+          <summary>Read full review <span aria-hidden="true">↗</span></summary>
+          <blockquote><p>{testimonial.quote}</p></blockquote>
+          <p class="testimonial-source">{testimonial.source} · {testimonial.serviceType}</p>
+        </details>
+      </article>
+    ))}
+  </div>
+</div>

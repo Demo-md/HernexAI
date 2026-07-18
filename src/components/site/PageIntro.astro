@@ -1,0 +1,16 @@
+---
+interface Props { eyebrow: string; title: string; description?: string; index?: string; withOrbit?: boolean; }
+const { eyebrow, title, description, index = "Supporting page", withOrbit = false } = Astro.props;
+---
+
+<section class:list={["page-intro", "section", "section--navy", { "page-intro--with-orbit": withOrbit }]} aria-labelledby="page-title">
+  <div class="shell page-intro__grid">
+    {index && <p class="section-index">{index}</p>}
+    <div>
+      <p class="eyebrow"><span></span>{eyebrow}</p>
+      <h1 id="page-title" data-page-title>{title}</h1>
+    </div>
+    {description && <p class="page-intro__copy">{description}</p>}
+    <slot name="visual" />
+  </div>
+</section>

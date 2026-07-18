@@ -1,0 +1,31 @@
+---
+import { testimonials } from "../../data/testimonials";
+---
+
+<section class="testimonials-section section section--warm" aria-labelledby="testimonials-title">
+  <div class="shell">
+    <header class="testimonials-section__heading" data-reveal>
+      <p class="section-index">Proof / Google Reviews</p>
+      <div>
+        <h2 id="testimonials-title">What clients remember after the work goes live.</h2>
+        <p>Clear thinking, dependable execution and communication that keeps the work moving.</p>
+      </div>
+    </header>
+    <div class="testimonials-columns">
+      {testimonials.map((testimonial) => (
+        <article class="testimonial-column" data-testimonial-row>
+          <header>
+            <span class="testimonial-avatar" aria-hidden="true">{testimonial.reviewerInitials}</span>
+            <div>
+              <cite>{testimonial.reviewerName}</cite>
+              <p>{testimonial.businessName || testimonial.serviceType}</p>
+            </div>
+          </header>
+          <span class="testimonial-stars" role="img" aria-label={`${testimonial.rating} out of 5 stars`}><span aria-hidden="true">★★★★★</span></span>
+          <blockquote><p>{testimonial.quote}</p></blockquote>
+          <footer><span>{testimonial.source}</span><span>{testimonial.serviceType}</span></footer>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

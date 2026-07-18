@@ -6,9 +6,10 @@
 - Inspected on: 2026-07-17
 - Browser/tool: `agent-browser` with Chromium, real browser session
 - Framework/runtime signals: Next.js-rendered page, Lenis `1.3.15` smooth-scroll marker, Swiper-like sliders
-- Viewports captured: `1440x900`, `1024x800`, `768x1024`, `430x932`, `390x844`
+- Viewports captured: `1440x900`, `1280x800`, `1024x800`, `768x1024`, `430x932`, `390x844`
 - Screenshot evidence: `/private/tmp/six2eight-reference/`
   - `1440x900.png`, `1440x900-full.png`
+  - `1280x800.png`, `1280x800-full.png`
   - `1024x800.png`, `1024x800-full.png`
   - `768x1024.png`, `768x1024-full.png`
   - `430x932.png`, `430x932-full.png`
@@ -24,6 +25,13 @@
 - **Observation:** the page combines static layout with a muted autoplay hero video, image-card transitions, horizontal sliders, smooth scrolling, sticky content, and long-duration decorative motion.
 - **Inference:** the strongest design idea is the contrast between a restrained structural system and a few high-energy media moments. The page feels designed around rhythm and pacing more than around a dense component library.
 - **Recommendation:** for HernexAI, adapt the pacing, contrast, proof sequencing, and art-directed media logic, while replacing the studio portfolio story with an original marketing-engine narrative in the existing navy-and-gold identity.
+
+## Direct Observations
+
+- The live desktop and mobile site was scrolled through its complete homepage at all required Phase 1 widths. The 1280px capture measured a `1280px` document width and approximately `18,120px` scroll height; the other viewport evidence and interaction notes are listed in this report.
+- The rendered experience uses a fixed navigation treatment, oversized editorial type, dark/light chapter changes, media-led service/work sections, a desktop sticky FAQ relationship, sliders, muted autoplay media, and Lenis-marked smooth scrolling.
+- Desktop exposes a broad navigation and CTA; mobile compresses it into a drawer. Text scale, media density, service presentation, process composition, and FAQ layout are intentionally simplified for narrow screens.
+- This report records only rendered behavior. Exact source implementation, proprietary assets, exact route-transition timing, and a conclusively visible custom cursor could not be inspected.
 
 ## Brand Feeling
 
@@ -234,7 +242,7 @@ The exact easing curves were not inspected. The visual character is mostly smoot
 - **Inference:** the strongest risk is the combined cost of large image count, autoplay media, remote optimization, sliders, and ambient animation rather than any single effect.
 - **Recommendation:** HernexAI should lazy-load below-fold media, use responsive image sources and modern formats, cap DPR and particle counts, pause the engine when offscreen or the tab is hidden, dynamically load heavy 3D code, reserve media dimensions to protect CLS, and avoid two continuous render loops.
 
-## Principles Worth Adapting
+## Transferable Principles
 
 1. **Use chapter rhythm:** alternate visual surfaces and content modes so a long page feels paced rather than repetitive.
 2. **Make one idea dominant per section:** pair a large statement with one proof or action instead of competing blocks.
@@ -244,6 +252,14 @@ The exact easing curves were not inspected. The visual character is mostly smoot
 6. **Use controlled overflow intentionally:** rails can communicate abundance, but they need visible progress, keyboard controls, and touch-safe behavior.
 7. **Let mobile simplify the story:** preserve the sequence and hierarchy while reducing simultaneous media, motion, and layout complexity.
 8. **Humanize technical work late in the story:** a founder/trust moment is strongest after the visitor understands the capability and process.
+
+## Unsuitable Patterns For HernexAI
+
+- A portfolio-studio information architecture that depends on an extensive public work library, because approved HernexAI case-study evidence is not currently available.
+- A near-black page as the default visual field, since the HernexAI direction needs navy, light editorial, and warm-neutral pacing.
+- A large autoplay hero video or numerous image rails as a prerequisite for the first meaningful paint.
+- Ambient motion, smooth scrolling, sliders, or custom cursor behavior that continue without a full reduced-motion and focus-safe fallback.
+- Large, highly rounded service cards as the dominant layout pattern; HernexAI must not become card-heavy.
 
 ## Patterns That Must Not Be Copied
 
@@ -296,9 +312,23 @@ The exact easing curves were not inspected. The visual character is mostly smoot
 ## Quality Gate
 
 - Report created at `docs/reference-analysis/six2eight.md`.
-- Required viewport screenshots captured at `1440`, `1024`, `768`, `430`, and `390` widths.
+- Required viewport screenshots captured at `1440`, `1280`, `1024`, `768`, `430`, and `390` widths.
 - Full page scrolled and section inventory recorded through footer.
 - Desktop and mobile navigation, menu, FAQ, form controls, hover, pointer, focus, loading, route, reduced-motion, and performance checks attempted.
 - Observations, inferences, recommendations, and limitations are separated.
 - Original HernexAI direction and non-copy constraints are explicit.
 - No HernexAI application files were modified during the analysis.
+
+## 2026-07-19 Hero Media Revalidation
+
+### Evidence And Limits
+
+- **Observation:** the supplied local recording shows the Six2Eight opening state with a single compact, rounded media object overlapping an oversized headline. It is slightly rotated and treated as a changing focal object rather than as a grid of cards.
+- **Observation:** the 2026-07-17 real-browser capture above remains the complete desktop/mobile evidence set, including all required viewports, page sections, navigation, hover, and responsive observations.
+- **Limitation:** a fresh isolated `agent-browser` session stalled during Chrome launch on 2026-07-19, so no new browser evidence was claimed. The existing captured browser evidence and the supplied recording were used for this focused visual interpretation.
+
+### Focused Observation
+
+- **Observation:** the strength of the reference hero is not a copied route or exact media geometry. It is the hierarchy: one readable central statement, one visual object at a time, a small persistent rotation, and a measured content change.
+- **Recommendation:** the HernexAI equivalent should keep every campaign device inside one fixed right-of-centre presentation slot, rotate through original concepts on a predictable cadence, and avoid full-screen flights, card piles, or repeated overlap with CTAs.
+- **Original HernexAI interpretation:** five navy-and-gold campaign devices use a common handset-like frame and concept-only marketing, AI, and technology imagery. Each holds the same stage for three seconds, enters with a small 14px/18px directional correction, settles at a controlled 3.5-5.5 degree tilt, then leaves in a short handoff. This adopts the editorial principle without reusing the reference composition, assets, text, source code, or timing.

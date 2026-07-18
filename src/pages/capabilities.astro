@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageIntro from "../components/site/PageIntro.astro";
+import ChannelOrbit from "../components/insights/ChannelOrbit.astro";
+import TestimonialColumns from "../components/testimonials/TestimonialColumns.astro";
+---
+<BaseLayout title="Capabilities | HerNexAI" description="Explore the strategic and creative structures HerNexAI can bring to a marketing system.">
+  <PageIntro index="" eyebrow="What the work can make possible" title="A capability view, not a performance claim." description="Until approved client work is available, this page shows the structures, deliverables, and thinking that can support a connected marketing system." withOrbit>
+    <ChannelOrbit slot="visual" variant="capabilities" />
+  </PageIntro>
+  <section class="capabilities-page section"><div class="shell capabilities-page__grid"><div class="capabilities-page__copy" data-reveal><p class="section-index">Three connected outputs</p><h2>Make the brand easier to understand, easier to express, and easier to act on.</h2></div><div class="capabilities-page__diagram" aria-label="Brand direction connects to campaign direction and customer follow up"><span>Brand<br />direction</span><i></i><span>Campaign<br />direction</span><i></i><span>Customer<br />follow up</span></div></div></section>
+  <section class="capabilities-page section section--warm"><div class="shell capabilities-page__rows"><article data-reveal><span>01</span><h3>Brand system</h3><p>Positioning, message hierarchy, identity direction, and a usable expression across touchpoints.</p></article><article data-reveal><span>02</span><h3>Campaign system</h3><p>Audience question, creative direction, content, landing page input, and a clearer action path.</p></article><article data-reveal><span>03</span><h3>Follow up system</h3><p>Useful handoffs, email or chat workflow input, and a rhythm for continuing the right conversation.</p></article></div></section>
+  <TestimonialColumns />
+</BaseLayout>

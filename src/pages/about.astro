@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { founder, philosophy } from "../data/about";
+---
+
+<BaseLayout title="About HerNexAI | Founder led marketing" description="Meet Priyanka Jha, the founder of HerNexAI, and the human led philosophy behind its practical AI enabled marketing work.">
+  <section class="about-founder" data-about-opening aria-labelledby="about-title">
+    <div class="shell about-founder__grid">
+      <div class="about-founder__copy">
+        <p class="section-index" data-about-eyebrow>About HerNexAI</p>
+        <h1 id="about-title" data-about-title><span>A woman led agency built to make marketing feel clearer,</span><span>more human and more <em>connected.</em></span></h1>
+        <p data-about-lede>Founded by Priyanka Jha in Hyderabad, HerNexAI brings together human creativity, brand strategy and practical AI to help entrepreneurs, coaches and growing businesses build an authentic digital presence.</p>
+      </div>
+      <figure class="founder-portrait" data-about-portrait>
+        <div class="founder-portrait__placeholder" role="img" aria-label="Portrait of Priyanka Jha pending founder approval">
+          <span aria-hidden="true">PJ</span>
+          <p>Founder portrait<br />approval pending</p>
+        </div>
+        <figcaption><strong data-about-name>{founder.name}</strong><span>{founder.role}</span><a href={founder.linkedIn} target="_blank" rel="noreferrer" aria-label="Visit Priyanka Jha on LinkedIn">LinkedIn <i aria-hidden="true">↗</i></a></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="about-story section section--warm" aria-labelledby="founder-story-title">
+    <div class="shell about-story__grid" data-reveal>
+      <p class="section-index">Founder led direction</p>
+      <div>
+        <h2 id="founder-story-title">Meet the founder behind the direction.</h2>
+        <p>Priyanka Jha is the founder of HerNexAI, with a multidisciplinary focus spanning brand design, visual communication, digital marketing, lead generation, website design and marketing consulting.</p>
+        <p>Her approach brings creative judgement and practical technology together, using AI to improve how ideas are researched, shaped and executed without allowing automation to replace human understanding.</p>
+        <blockquote><p>“{founder.approvalStatement}”</p><footer>Founder statement, approval required</footer></blockquote>
+        <p class="about-story__focus" data-about-focus>{founder.focusAreas.join(" · ")}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-philosophy section section--navy" aria-labelledby="philosophy-title">
+    <div class="shell">
+      <header class="about-philosophy__heading" data-reveal><p class="section-index">The working philosophy</p><h2 id="philosophy-title">Human thinking first. Technology where it creates leverage.</h2></header>
+      <ol class="about-philosophy__principles">
+        {philosophy.map((principle, index) => <li data-capability-step><span>0{index + 1}</span><div><h3>{principle.title}</h3><p>{principle.body}</p></div></li>)}
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

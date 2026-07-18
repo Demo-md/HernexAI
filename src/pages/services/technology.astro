@@ -1,0 +1,8 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceHub from "../../components/services/ServiceHub.astro";
+import { technologyCapabilities } from "../../data/site";
+---
+<BaseLayout title="Technology Services | HerNexAI" description="Products, platforms, software, AI, automation, and infrastructure services from HerNexAI.">
+  <ServiceHub category="technology" index="02 / Technology" eyebrow="Products, platforms, software, AI and infrastructure" title="Build the systems that make growth easier to sustain." description="Technology should remove operational drag, support better customer experiences, and remain understandable for the team that owns it." items={technologyCapabilities} />
+</BaseLayout>

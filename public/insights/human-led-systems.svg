@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title">
+  <title id="title">Human-led systems diagram</title><rect width="1200" height="720" fill="#071B55"/>
+  <circle cx="314" cy="364" r="152" fill="#F7F4ED"/><circle cx="601" cy="364" r="102" fill="#F5A623"/><circle cx="893" cy="364" r="152" fill="none" stroke="#F7F4ED" stroke-width="6"/><path d="M456 364h46m191 0h46" stroke="#F5A623" stroke-width="8"/>
+  <g font-family="Arial, sans-serif" font-weight="800"><text x="207" y="380" fill="#071B55" font-size="32">JUDGMENT</text><text x="542" y="380" fill="#071B55" font-size="26">FLOW</text><text x="790" y="380" fill="#F7F4ED" font-size="32">FOLLOW-UP</text><text x="108" y="120" fill="#F7F4ED" font-size="82">HUMAN-LED,</text><text x="108" y="202" fill="#F5A623" font-size="82">SYSTEM-SUPPORTED.</text></g>
+</svg>

@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/site/PageIntro.astro";
+import { faqs, services } from "../../data/site";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return services.map((service, index) => ({ params: { slug: service.slug }, props: { service, index } }));
+}
+
+const { service, index } = Astro.props;
+---
+
+<BaseLayout title={`${service.title} | HerNexAI`} description={service.summary}>
+  <PageIntro index={`${String(index + 1).padStart(2, "0")} / ${service.category === "technology" ? "Technology" : "Marketing"}`} eyebrow={service.kicker} title={service.title} description={service.summary} />
+  <section class="service-detail section" aria-labelledby="service-problem-title"><div class="shell service-detail__problem" data-reveal><a class="service-detail__back" href="/services">← All services</a><p class="section-index">The customer problem</p><h2 id="service-problem-title">{service.problem}</h2></div></section>
+  <section class="service-detail section section--navy"><div class="shell service-detail__solution" data-reveal><p class="section-index">The HerNexAI approach</p><p>{service.solution}</p><ul class="service-detail__tags" aria-label={`${service.title} capability labels`}>{service.tags.map((tag) => <li>{tag}</li>)}</ul></div></section>
+  <section class="service-detail section section--warm"><div class="shell service-detail__grid"><div data-reveal><p class="section-index">Included in the conversation</p><h2>{service.category === "technology" ? "A capable technical foundation." : "Give the right work a clear role."}</h2></div><ol>{service.includes.map((item, itemIndex) => <li><span>{String(itemIndex + 1).padStart(2, "0")}</span>{item}</li>)}</ol></div></section>
+  <section class="service-detail section service-detail__faq" aria-labelledby="service-faq-title"><div class="shell"><div class="service-detail__faq-heading" data-reveal><p class="section-index">Common questions</p><h2 id="service-faq-title">The details that help you choose the right next step.</h2></div><div class="service-detail__faq-list">{faqs.map(([question, answer]) => <details><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></div></section>
+  <section class="service-detail section section--navy"><div class="shell service-detail__ai" data-reveal><p class="section-index">A practical next move</p><p>Bring the context, constraints, and decision into one conversation. We will help identify the right scope.</p><a class="button button--gold" href="/contact">Talk through this service <span aria-hidden="true">↗</span></a></div></section>
+</BaseLayout>

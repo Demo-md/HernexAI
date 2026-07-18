@@ -1,0 +1,8 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceHub from "../../components/services/ServiceHub.astro";
+import { marketingServices } from "../../data/site";
+---
+<BaseLayout title="Marketing Services | HerNexAI" description="Brand, content, campaigns, visibility, and conversion services from HerNexAI.">
+  <ServiceHub category="marketing" index="01 / Marketing" eyebrow="Brand, content, campaigns, visibility and conversion" title="Make every marketing move point in one direction." description="Start with the pressure point creating the most friction, then connect only the work that earns its place." items={marketingServices} />
+</BaseLayout>
